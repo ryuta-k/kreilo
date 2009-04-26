@@ -1,0 +1,5 @@
+#Central configuration file of the framework
+input:
+    type: image
+    number: 1
+    src: /home/jordi/images/
