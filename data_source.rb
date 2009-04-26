@@ -1,20 +1,72 @@
 module Kreilo
 
-class DataSource
 
+require "activerecord"
+
+# This class is only to configure ActiveRecord to use a different database
+# Configured in DataElement
+class DataSource < ActiveRecord::Base	
+	
+end
+
+class Inputdata < Datasource
+  has_many :annotations
+  
+end
+
+class Annotation < Datasource
+  belongs_to :inputdata
+  
+end
+
+
+=begin rdoc
+Configuration options:
+input:
+  number: number of data elements that will be read each time
+  type: type of the data (posible values are image, text, sound, video)
+  src: location of the database. 
+  
+  TODO: import data: The location can be a directory (where each file is a data element),
+  a file (where each line is a data element) or a database (where a "data" column should exist) 
+  TODO: offset of the files
+=end
+
+class DataElement 
   def initialize
-    options=$framework.get_configuration("input", false)
+    options = $framework.get_configuration("input", false)
+    @batch_size = options["number"]
+    @type = options["type"]
+    @src = options["src"]	
     
-    options.each { 
-      |key,value| 
+    if not File.exists? @src
+      raise "The database file #{@src} does NOT exist. Data can not be loaded."
+    end
       
-    }
-			
+    DataSource.establish_connection (
+    :adapter => "sqlite3",
+    :database => @src,
+    :pool => 5,
+    :timeout => 5000
+    )
+		
 			
   end
 
 
 end
+
+
+class Input
+	def initialize
+		options = $framework.get_configuration("input", false)
+		@shared = 
+		
+	end
+	
+	
+end
+
 
 require "yaml"
 class Configuration
@@ -23,8 +75,6 @@ class Configuration
     if not File.exists? Filename
       raise "configuration file #{Filename} can not be found."
     end
-#    @data = YAML::parse(File.open(Filename, "r"))
-#    @data.transform
     @data = YAML::load(File.open(Filename, "r"))
 
     if @data.nil?
@@ -42,12 +92,10 @@ class Configuration
   
 private
   Filename = "configuration.yml"
-
-
 end
 
 
-#example configuration
+
 
 
 class Framework
@@ -57,6 +105,7 @@ class Framework
 	def initialize
 		@configuration = Configuration.new 
 		@configuration.parse
+		
 		
   end
 	

@@ -2,4 +2,4 @@
 input:
     type: image
     number: 1
-    src: /home/jordi/images/
+    src: test.sqlite3 
