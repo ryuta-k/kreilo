@@ -2,4 +2,7 @@
 input:
     type: image
     number: 1
-    src: test.sqlite3 
+    shared: true
+
+general:
+    debug: true
