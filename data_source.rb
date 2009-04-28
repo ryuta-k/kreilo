@@ -21,12 +21,10 @@ end
 Configuration options:
 input:
   number: number of data elements that will be read each time
-  type: type of the data (posible values are image, text, sound, video)
+  type: type of the data (posible values are image, text, TODO:sound, video)
   src: location of the database. 
-   
-  TODO: import data: The location can be a directory (where each file is a data element),
-  a file (where each line is a data element) or a database (where a "data" column should exist) 
-  TODO: offset of the files
+  TODO: offset and lenght of offset of the files
+  TODO: policy (fair, random, first_new, first_partial)
 =end
 
 class Input
@@ -34,6 +32,7 @@ class Input
     options = $framework.get_configuration("input", false)
     @batch_size = options["number"]
     @type = options["type"]
+    @policy = options["policy"]
 
     #Need to do this for each ActiveRecord based class so that they can use different databases
     dbconfig = YAML::load(File.open('database.yml'))  
@@ -44,7 +43,14 @@ class Input
   
   #Read a batch of data 
   def get
-    
+    send("get_" + @policy).to_sym
+=begin
+    case @policy
+    when "fair" then get_fair
+    when "random" then get_random
+    when "first_new" then get_first_new
+    when "first_patial" then get_first_partial
+=end
   end
 
 

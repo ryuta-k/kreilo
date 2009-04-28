@@ -38,6 +38,13 @@ input:
   policy: fair 
   get_new: true #new data if more than one step? Default: false unless feedback of data is enabled
     
+  # optional
+  # cross feedback example from 2 players outputs to inputs
+input-feedback:    
+  mapping: 
+    1: 2
+    2: 1         
+      
 # min_time_limit: minimum time till next step
 # max_time_limit:
 # time_limit: min_time_limit = max_time_limit = X
@@ -51,17 +58,8 @@ step:
   inherited: true 
   winning: # output_agreement, most_votes, 
   scoring: # on_winning, on_vote, on_agreement
-  annotating: # won_answer
+  annotating: # none, won_answer
   
-  
-    
-# optional
-# cross feedback example from 2 players outputs to inputs
-input-feedback:    
-  mapping: 
-    1: 2
-    2: 1         
-    
 
 # multiple: if possible to have multiple outputs (answers)  
 # type: free_text, restricted_text, categories, questions 
