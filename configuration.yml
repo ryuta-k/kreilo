@@ -1,8 +1,83 @@
 #Central configuration file of the framework
-input:
-    type: image
-    number: 1
-    shared: true
+#after the general section all the configuration is step dependend and will
 
 general:
-    debug: true
+  debug: true
+  steps: 1 
+  # default: no
+#  min_time_limit: 15
+#  max_time_limit: 
+#  time_limit:
+
+
+#defaults: no time limit, no limited number of turns, skipable
+#limits on number of turns and on time per turn
+turn:
+#  min_number: 
+#  max_number:
+#  number:
+#  min_time_limit: 10
+#  max_time_limit: 20
+#  time_limit:
+  skipable: false
+  
+#group_mapping : where the player goes, only fair (each group same amount of players) is supported.
+#players mangling between steps not supported
+player:
+  number: 4
+  groups: 2
+  group_mapping: fair
+    
+    
+  
+---
+input:
+  type: image
+  number: 1
+  shared: true
+  policy: fair 
+  get_new: true #new data if more than one step? Default: false unless feedback of data is enabled
+    
+# min_time_limit: minimum time till next step
+# max_time_limit:
+# time_limit: min_time_limit = max_time_limit = X
+# skipable : if the step can be skipped
+# inherited: if the configuration is the same as the first step
+# if inherited: true, only differences of configurations have to be defined in new step
+step:
+  min_time_limit: 10
+  max_time_limit: 20
+  skipable: true
+  inherited: true 
+  winning: # output_agreement, most_votes, 
+  scoring: # on_winning, on_vote, on_agreement
+  annotating: # won_answer
+  
+  
+    
+# optional
+# cross feedback example from 2 players outputs to inputs
+input-feedback:    
+  mapping: 
+    1: 2
+    2: 1         
+    
+
+# multiple: if possible to have multiple outputs (answers)  
+# type: free_text, restricted_text, categories, questions 
+# multiple: if multiple data has to be filled at the same time (noop for free_text)
+# exclusive: if the answer of answers can only be commited once repeat
+output:
+  multiple: true 
+  exclusive: false
+  type: free_text
+#  constraints: 
+# a list like:
+  # - category1
+  # - category2
+#or 
+  # - question
+  # - answer1
+  # - answer2
+    
+    
