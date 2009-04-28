@@ -179,37 +179,73 @@ class Game
 	def load_game (doc)
 	  game = doc['game']
 		if game["debug"] == true
+      @debug = true
       ActiveRecord::Base.logger = Logger.new(STDERR)  
     end  
-  
+    @min_time_limit, @max_time_limit = read_limits (game, "time_limit")
+    if not doc["turn"].nil?
+      @turns = TurnManager.new doc
+    end
+
+     
+    
 
 	end 
 	
-	def read_time_limits (node)
-		min_time = node["min_time_limit"]
-		max_time = node["max_time_limit"]
-		
+	def read_limits (node, limit_name)
+		min_time = node["min_"+limit_name]
+    if min_time.nil?
+      min_time = 0
+    end
+
+    max_time = node["max_"+limit_name]
+    if max_time.nil?
+      max_time = 0
+    end
+    
+    time_limit = node[limit_name]
+    if not time_limit.nil?
+      min_time |= time_limit
+      max_time |= time_limit
+    end
+    return min_time, max_time
 	end
-		
-		@configuration = Configuration.new 
-	  @configuration.parse
-			
-	  options = get_configuration("general", true)
-		if options["debug"] == true
-      ActiveRecord::Base.logger = Logger.new(STDERR)  
-    end  
-  
-	  @inputs = InputManager.new
-		@players = PlayerManager.new
-	  
-		
+#ok private class? ok this reader?  I need a clock counting seconds
+  #clock should send a signal when the max_time is reached
+  class TurnManager 
+    attr_reader :skipable, :min_number, :max_number, :min_time_limit, :max_time_limit
+    def initialize (doc)
+      turn = doc["turn"]
+      @min_number, @max_number = read_limits (turn, "number")
+      @min_time_limit, @max_time_limit = read_limits (turn, "time_limit")
+      @skipable = turn["skipable"]
+      @current = 0
+      @clock = Clock.new (@min_time_limit, @max_time_limit)
+    end
+    def next
+      @current += 1
+      @clock.start 
+    end
   end
+	
+		
 	
 	#provided for convenience
 	def get_configuration (label, allow_empty)
 		@configuration.get_configuration(label, allow_empty)
 	end
 	
+end
+
+  
+class Clock 
+  def initialize (min, max)
+    @min, @max = min, max
+  end
+  def allow? 
+  end
+  def start
+  end
 end
 
 
