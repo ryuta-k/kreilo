@@ -136,7 +136,9 @@ class Configuration
     if not File.exists? Filename
       raise "configuration file #{Filename} can not be found."
     end
-    @data = YAML::load(File.open(Filename, "r"))
+    @data = YAML::load_documents(File.open(Filename, "r"))
+    
+    {}
 
     if @data.nil?
       raise "Configuration file #{Filename} can not be parsed."
@@ -159,10 +161,36 @@ end
 
 
 
-class Framework
+class Game
   attr_reader :logger
 
 	def initialize
+    if not File.exists? Filename
+      raise "configuration file #{Filename} can not be found."
+    end
+    data = YAML::load_documents(File.open(Filename, "r")) 
+      { |doc| load_game (doc) }
+  
+    if @data.nil?
+      raise "Configuration file #{Filename} can not be parsed."
+    end
+	  	
+ private
+	def load_game (doc)
+	  game = doc['game']
+		if game["debug"] == true
+      ActiveRecord::Base.logger = Logger.new(STDERR)  
+    end  
+  
+
+	end 
+	
+	def read_time_limits (node)
+		min_time = node["min_time_limit"]
+		max_time = node["max_time_limit"]
+		
+	end
+		
 		@configuration = Configuration.new 
 	  @configuration.parse
 			

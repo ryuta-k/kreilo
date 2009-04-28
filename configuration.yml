@@ -1,9 +1,12 @@
 #Central configuration file of the framework
-#after the general section all the configuration is step dependend and will
+#Every game will have the same turns, players, groups and step
+#Each step has potential different inputs and outputs. 
+#Winning conditions etc are tied to inputs and outputs so they can be different also
+#Tipically each game will have only one step so most hassle is not needed. 
 
-general:
+
+game:
   debug: true
-  steps: 1 
   # default: no
 #  min_time_limit: 15
 #  max_time_limit: 
