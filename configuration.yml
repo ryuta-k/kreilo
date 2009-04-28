@@ -4,10 +4,9 @@
 #Winning conditions etc are tied to inputs and outputs so they can be different also
 #Tipically each game will have only one step so most hassle is not needed. 
 
-
+# by default no time limits in all the categories, time limits in seconds
 game:
   debug: true
-  # default: no
 #  min_time_limit: 15
 #  max_time_limit: 
 #  time_limit:
@@ -24,12 +23,12 @@ turn:
 #  time_limit:
   skipable: false
   
-#group_mapping : where the player goes, only fair (each group same amount of players) is supported.
+#group_mapping : where the player goes, TODO: only fair (each group same amount of players) is supported.
 #players mangling between steps not supported
 player:
   number: 4
   groups: 2
-  group_mapping: fair
+#  group_mapping: fair
     
     
   

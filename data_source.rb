@@ -99,14 +99,10 @@ class PlayerManager
   attr_reader :groups_number
   attr_reader :players_number
   
-	def initialize
-		options = $framework.get_configuration("group", :allow_empty => true)
-		if not options.nil?
-			@groups_number = options["number"]
-		end
+	def initialize (doc)
 		
-		options = $framework.get_configuration("player")
-		@players_number = options["number"]
+    @groups_number = doc["groups"]
+	  @players_number = doc["number"] 
 		
 		@players = Array.new
 		@players_number.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
@@ -128,7 +124,7 @@ class Player
 	
 	
 end
-
+=begin
 require "yaml"
 class Configuration
 
@@ -156,11 +152,11 @@ class Configuration
 private
   Filename = "configuration.yml"
 end
+=end
 
 
 
-
-
+#TODO: strong against configuration files not using the correct template
 class Game
   attr_reader :logger
 
@@ -171,22 +167,34 @@ class Game
     data = YAML::load_documents(File.open(Filename, "r")) 
       { |doc| load_game (doc) }
   
-    if @data.nil?
+    if data.nil?
       raise "Configuration file #{Filename} can not be parsed."
     end
-	  	
+    
+  end
+
  private
 	def load_game (doc)
+    if doc.nil?
+      raise "Configuration file can not be parsed."
+    end
+
 	  game = doc['game']
+
 		if game["debug"] == true
       @debug = true
       ActiveRecord::Base.logger = Logger.new(STDERR)  
     end  
+
     @min_time_limit, @max_time_limit = read_limits (game, "time_limit")
+
     if not doc["turn"].nil?
       @turns = TurnManager.new doc
     end
-
+   
+    if not doc["player"].nil?
+      @players = PlayerManager.new doc
+    end
      
     
 
@@ -210,8 +218,9 @@ class Game
     end
     return min_time, max_time
 	end
+
 #ok private class? ok this reader?  I need a clock counting seconds
-  #clock should send a signal when the max_time is reached
+  #clock should send a signal when the max_time is reached connect to this class finished
   class TurnManager 
     attr_reader :skipable, :min_number, :max_number, :min_time_limit, :max_time_limit
     def initialize (doc)
@@ -222,9 +231,12 @@ class Game
       @current = 0
       @clock = Clock.new (@min_time_limit, @max_time_limit)
     end
-    def next
+    def start
       @current += 1
       @clock.start 
+    end
+    def finish
+      @clock.stop
     end
   end
 	
@@ -242,8 +254,10 @@ class Clock
   def initialize (min, max)
     @min, @max = min, max
   end
+
   def allow? 
   end
+
   def start
   end
 end
