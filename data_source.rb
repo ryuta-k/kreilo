@@ -124,36 +124,6 @@ class Player
 	
 	
 end
-=begin
-require "yaml"
-class Configuration
-
-  def parse
-    if not File.exists? Filename
-      raise "configuration file #{Filename} can not be found."
-    end
-    @data = YAML::load_documents(File.open(Filename, "r"))
-    
-    {}
-
-    if @data.nil?
-      raise "Configuration file #{Filename} can not be parsed."
-    end
-  end
-  
-  def get_configuration (label, allow_empty = false)
-    options = @data[label]
-    if options.empty? and not allow_empty 
-      raise "We could find the requested configuration data for #{label}"
-    end
-    options
-  end  
-  
-private
-  Filename = "configuration.yml"
-end
-=end
-
 
 
 #TODO: strong against configuration files not using the correct template
@@ -164,8 +134,7 @@ class Game
     if not File.exists? Filename
       raise "configuration file #{Filename} can not be found."
     end
-    data = YAML::load_documents(File.open(Filename, "r")) 
-      { |doc| load_game (doc) }
+    data = YAML::load_documents(File.open(Filename, "r")) {|doc| load_game (doc) }
   
     if data.nil?
       raise "Configuration file #{Filename} can not be parsed."
@@ -186,7 +155,7 @@ class Game
       ActiveRecord::Base.logger = Logger.new(STDERR)  
     end  
 
-    @min_time_limit, @max_time_limit = read_limits (game, "time_limit")
+    @min_time_limit, @max_time_limit = read_limits(game, "time_limit")
 
     if not doc["turn"].nil?
       @turns = TurnManager.new doc
@@ -219,17 +188,17 @@ class Game
     return min_time, max_time
 	end
 
-#ok private class? ok this reader?  I need a clock counting seconds
+#ok private class?  I need a clock counting seconds
   #clock should send a signal when the max_time is reached connect to this class finished
   class TurnManager 
     attr_reader :skipable, :min_number, :max_number, :min_time_limit, :max_time_limit
     def initialize (doc)
       turn = doc["turn"]
-      @min_number, @max_number = read_limits (turn, "number")
-      @min_time_limit, @max_time_limit = read_limits (turn, "time_limit")
+      @min_number, @max_number = read_limits(turn, "number")
+      @min_time_limit, @max_time_limit = read_limits(turn, "time_limit")
       @skipable = turn["skipable"]
       @current = 0
-      @clock = Clock.new (@min_time_limit, @max_time_limit)
+      @clock = Clock.new(@min_time_limit, @max_time_limit)
     end
     def start
       @current += 1
@@ -251,15 +220,52 @@ end
 
   
 class Clock 
+  attr_reader :allow
   def initialize (min, max)
     @min, @max = min, max
+    @allow = false
+  end
+  
+  def repeat_every(seconds)
+    @running = true
+    while @running do
+      time_spent = time_block { yield } # To handle -ve sleep interaval
+      sleep(seconds - time_spent) if time_spent < seconds
+      @running_time += 1
+      if (@running_time >= @min)
+        @min_expired_method.call
+      end
+      if (@running_time >= @max)
+        @max_expired_method.call
+        stop
+      end
+      
+    end
+  end
+  
+  def on_min_expired=(method_name)
+    @min_expired_method = method_name
+    @allow = true
   end
 
-  def allow? 
+  def on_max_expired=(method_name)
+    @max_expired_method = method_name
+    @allow = false
+  end
+  
+  def stop
+    @running = false
+  end
+  
+ private
+ 
+  def time_block
+    start_time = Time.now
+    Thread.new { yield }
+    Time.now - start_time
   end
 
-  def start
-  end
+  
 end
 
 
@@ -282,3 +288,36 @@ a.save!
 =end
 
 end
+
+
+
+=begin
+require "yaml"
+class Configuration
+  
+  def parse
+    if not File.exists? Filename
+      raise "configuration file #{Filename} can not be found."
+    end
+    @data = YAML::load_documents(File.open(Filename, "r"))
+    
+    {}
+    
+    if @data.nil?
+      raise "Configuration file #{Filename} can not be parsed."
+    end
+  end
+  
+  def get_configuration (label, allow_empty = false)
+    options = @data[label]
+    if options.empty? and not allow_empty 
+      raise "We could find the requested configuration data for #{label}"
+    end
+    options
+  end  
+  
+  private
+  Filename = "configuration.yml"
+end
+=end
+
