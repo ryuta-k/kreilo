@@ -20,7 +20,8 @@ require 'yaml'
 module Kreilo
   
 require 'globals'
-  
+
+#class with miscellaneous things about the configuration files. 
 class Configuration
   
   def self.parse (file) 
@@ -46,6 +47,27 @@ class Configuration
     YAML::load(File.open($Database_configuration_file))  
   end
   
+ 	
+	def self.read_limits (node, limit_name)
+	  min_time = node["min_"+limit_name]
+    if min_time.nil?
+      min_time = 0
+    end
+  
+    max_time = node["max_"+limit_name]
+    if max_time.nil?
+      max_time = 0
+    end
+    
+    time_limit = node[limit_name]
+    if not time_limit.nil?
+      min_time |= time_limit
+      max_time |= time_limit
+    end
+    
+    return min_time, max_time
+  end
+
 end
 
 

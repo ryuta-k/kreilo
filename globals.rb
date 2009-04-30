@@ -17,8 +17,9 @@
 
 module Kreilo
 
-  $Site_configuration_file = "site.yml"
-  $Database_configuration_file = "data.yml"
+  $Config_prefix = "configuration/"
+  $Site_configuration_file = $Config_prefix + "site.yml"
+  $Database_configuration_file = $Config_prefix + "database.yml"
 
 
 end

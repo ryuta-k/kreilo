@@ -86,13 +86,16 @@ end
 class InputManager
   attr_reader :shared
   
-	def initialize (doc)
+	def initialize 
+	end
+
+  def load (doc)
 		options = doc["input"]
 		
 		@shared = options["shared"]		
-		@inputs = Array.new.insert Input.new
+		@inputs = Array.new.insert Input.new doc
+		
 	end
-	
 	def get_new_input
 		if not @shared
 			@inputs.insert Input.new
@@ -113,7 +116,7 @@ class PlayerManager
 	  @players_number = doc["number"] 
 		
 		@players = Array.new
-		@players_number.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
+		@players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
 	end
 	
 	
@@ -144,14 +147,14 @@ end
 
 #manage input output feedback and output face of steps
 class StepManager
-	def initialize
-		@inputs = InputManager.new
+	def initialize 
+		@inputs = InputManager.new 
 		@steps = Array.new		
 	end
 	
 	def load (doc)
 		@inputs.load doc
-		@steps << Step.new doc 
+		@steps.push Step.new doc 
 	end
 	
 end
@@ -161,9 +164,10 @@ class Game
   attr_reader :logger
 
 	def initialize (filename)
-		Configuration.parse filename do |doc, doc_number| load_doc(doc, doc_number) end
 		@debug = false
 		@steps = StepManager.new
+		Configuration.parse filename do |doc, doc_number| load_doc(doc, doc_number) end
+
 		return self
   end
 
@@ -185,7 +189,7 @@ class Game
       ActiveRecord::Base.logger = Logger.new(STDERR)  
     end  
 
-    @min_time_limit, @max_time_limit = read_limits(game, "time_limit")
+    @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
 
     if not doc["turn"].nil?
       @turns = TurnManager.new doc
@@ -196,25 +200,6 @@ class Game
     end
      
 	end 
-	
-	def read_limits (node, limit_name)
-		min_time = node["min_"+limit_name]
-    if min_time.nil?
-      min_time = 0
-    end
-
-    max_time = node["max_"+limit_name]
-    if max_time.nil?
-      max_time = 0
-    end
-    
-    time_limit = node[limit_name]
-    if not time_limit.nil?
-      min_time |= time_limit
-      max_time |= time_limit
-    end
-    return min_time, max_time
-	end
 
 #ok private class?  I need a clock counting seconds
   #clock should send a signal when the max_time is reached connect to this class finished
@@ -222,8 +207,8 @@ class Game
     attr_reader :skipable, :min_number, :max_number, :min_time_limit, :max_time_limit
     def initialize (doc)
       turn = doc["turn"]
-      @min_number, @max_number = read_limits(turn, "number")
-      @min_time_limit, @max_time_limit = read_limits(turn, "time_limit")
+      @min_number, @max_number = Configuration.read_limits(turn, "number")
+      @min_time_limit, @max_time_limit = Configuration.read_limits(turn, "time_limit")
       @skipable = turn["skipable"]
       @current = 0
       @clock = Clock.new(@min_time_limit, @max_time_limit)
@@ -236,14 +221,7 @@ class Game
       @clock.stop
     end
   end
-	
 		
-	
-	#provided for convenience
-	def get_configuration (label, allow_empty)
-		@configuration.get_configuration(label, allow_empty)
-	end
-	
 end
 
   

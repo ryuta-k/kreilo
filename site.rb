@@ -23,7 +23,7 @@ require 'data_source.rb'
 class Site
 	def initialize
 		@games = Array.new
-   	Configuration.parse $Site_configuration_file do |doc| load_site (doc) end
+   	Configuration.parse $Site_configuration_file do |doc, a| load_site (doc) end
 	end
 	
  private
@@ -32,7 +32,8 @@ class Site
 			
 		#load games
 	  doc["games"]["names"].split(',').each do |game_name|
-				@games.push Game.new game_name.strip + ".yml" 
+				filename = $Config_prefix + game_name.strip + ".yml"
+				@games.push Game.new filename				  
 	  end	
   end
 
