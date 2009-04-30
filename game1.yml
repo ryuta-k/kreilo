@@ -4,6 +4,12 @@
 #Winning conditions etc are tied to inputs and outputs so they can be different also
 #Tipically each game will have only one step so most hassle is not needed. 
 
+#TODO: increasing points appealing options come here
+#if we calculate the leaderboard with the scores
+#how many people in each category and what categories
+#leaderboard:
+#  members: 20
+  #  groupings: day, week, month, all_time
   
 # by default no time limits in all the categories, time limits in seconds
 game:

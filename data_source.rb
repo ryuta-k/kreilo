@@ -18,13 +18,17 @@
 #libraries
 require "rubygems"
 require "activerecord"
-require 'yaml'  
+ 
 require 'logger'  
 
-#mine
-require 'clock'
 
 module Kreilo
+
+require 'clock'
+require 'globals'
+require 'configuration'
+
+
 
 
 class InputData < ActiveRecord::Base
@@ -49,14 +53,14 @@ input:
 =end
 
 class Input
-  def initialize
-    options = $framework.get_configuration("input", false)
+  def initialize (doc)
+    options = doc["input"]
     @batch_size = options["number"]
     @type = options["type"]
     @policy = options["policy"]
 
     #Need to do this for each ActiveRecord based class so that they can use different databases
-    dbconfig = YAML::load(File.open('database.yml'))  
+    dbconfig = Configuration.loadDatabase 
     [InputData, Annotation].each { |aclass| 
       aclass.establish_connection(dbconfig)
     }
@@ -82,8 +86,9 @@ end
 class InputManager
   attr_reader :shared
   
-	def initialize
-		options = $framework.get_configuration("input")
+	def initialize (doc)
+		options = doc["input"]
+		
 		@shared = options["shared"]		
 		@inputs = Array.new.insert Input.new
 	end
@@ -128,55 +133,51 @@ class Player
 	
 end
 
-class Site
-	def initialize
-    if not File.exists? Filename
-      raise "configuration file #{Filename} can not be found."
-    end
-    doc_number = 0
-    data = YAML::load_documents(File.open(Filename, "r")) {|doc| load_site(doc) }
-    
-    if data.nil?
-      raise "Configuration file #{Filename} can not be parsed."
-    end
-   	
+
+class Step
+	def initialize(doc)
+		
 	end
 	
- private
+	
+end
 
-  def load_site(doc)
-  	
-  end
-  
-  Filename = "configuration.yml"
-
+#manage input output feedback and output face of steps
+class StepManager
+	def initialize
+		@inputs = InputManager.new
+		@steps = Array.new		
+	end
+	
+	def load (doc)
+		@inputs.load doc
+		@steps << Step.new doc 
+	end
+	
 end
 
 
-#TODO: strong against configuration files not using the correct template
 class Game
   attr_reader :logger
 
 	def initialize (filename)
-		
+		Configuration.parse filename do |doc, doc_number| load_doc(doc, doc_number) end
+		@debug = false
+		@steps = StepManager.new
+		return self
   end
 
  private
   def load_doc(doc, doc_number)
-    if doc.nil?
-      raise "Configuration file can not be parsed."
-    end
 		if doc_number == 1 then
       load_game(doc)					
-      @steps = Array.new
     else
-      @steps << load_step(doc)
+      @steps.load doc
     end
   end
       
-
-	def load_game (doc, doc_number)	
-
+	def load_game (doc)	
+		
 	  game = doc['game']
 
 		if game["debug"] == true
@@ -195,10 +196,6 @@ class Game
     end
      
 	end 
-	
-	def load_step (doc)
-		
-	end
 	
 	def read_limits (node, limit_name)
 		min_time = node["min_"+limit_name]
@@ -252,55 +249,4 @@ end
   
 
 
-$framework = Game.new
-
-i = Input.new
-
-=begin
-#test
-input = InputData.new
-input.times_processed = 1
-input.save!
-a=input.annotations.create
-a.offset=0
-a.label_name = "label"
-a.label="test"
-a.times_selected=1
-a.save!	
-
-=end
-
 end
-
-
-
-=begin
-require "yaml"
-class Configuration
-  
-  def parse
-    if not File.exists? Filename
-      raise "configuration file #{Filename} can not be found."
-    end
-    @data = YAML::load_documents(File.open(Filename, "r"))
-    
-    {}
-    
-    if @data.nil?
-      raise "Configuration file #{Filename} can not be parsed."
-    end
-  end
-  
-  def get_configuration (label, allow_empty = false)
-    options = @data[label]
-    if options.empty? and not allow_empty 
-      raise "We could find the requested configuration data for #{label}"
-    end
-    options
-  end  
-  
-  private
-  Filename = "configuration.yml"
-end
-=end
-

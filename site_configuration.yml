@@ -1,8 +1,0 @@
-#Central configuration file of the framework
-leaderboard:
-  members: 20
-  groupings: day, week, month, all_time
-  
-game:
-  name: game1
-  filename: game1_configuration.yml
