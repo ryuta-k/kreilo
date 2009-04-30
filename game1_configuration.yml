@@ -1,9 +1,10 @@
-#Central configuration file of the framework
+#configuration file for one game
 #Every game will have the same turns, players, groups and step
 #Each step has potential different inputs and outputs. 
 #Winning conditions etc are tied to inputs and outputs so they can be different also
 #Tipically each game will have only one step so most hassle is not needed. 
 
+  
 # by default no time limits in all the categories, time limits in seconds
 game:
   debug: true
@@ -79,5 +80,4 @@ output:
   # - question
   # - answer1
   # - answer2
-    
-    
+

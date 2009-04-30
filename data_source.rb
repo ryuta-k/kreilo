@@ -15,11 +15,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-
+#libraries
 require "rubygems"
 require "activerecord"
 require 'yaml'  
 require 'logger'  
+
+#mine
+require 'clock'
 
 module Kreilo
 
@@ -125,28 +128,54 @@ class Player
 	
 end
 
+class Site
+	def initialize
+    if not File.exists? Filename
+      raise "configuration file #{Filename} can not be found."
+    end
+    doc_number = 0
+    data = YAML::load_documents(File.open(Filename, "r")) {|doc| load_site(doc) }
+    
+    if data.nil?
+      raise "Configuration file #{Filename} can not be parsed."
+    end
+   	
+	end
+	
+ private
+
+  def load_site(doc)
+  	
+  end
+  
+  Filename = "configuration.yml"
+
+end
+
 
 #TODO: strong against configuration files not using the correct template
 class Game
   attr_reader :logger
 
-	def initialize
-    if not File.exists? Filename
-      raise "configuration file #{Filename} can not be found."
-    end
-    data = YAML::load_documents(File.open(Filename, "r")) {|doc| load_game (doc) }
-  
-    if data.nil?
-      raise "Configuration file #{Filename} can not be parsed."
-    end
-    
+	def initialize (filename)
+		
   end
 
  private
-	def load_game (doc)
+  def load_doc(doc, doc_number)
     if doc.nil?
       raise "Configuration file can not be parsed."
     end
+		if doc_number == 1 then
+      load_game(doc)					
+      @steps = Array.new
+    else
+      @steps << load_step(doc)
+    end
+  end
+      
+
+	def load_game (doc, doc_number)	
 
 	  game = doc['game']
 
@@ -165,9 +194,11 @@ class Game
       @players = PlayerManager.new doc
     end
      
-    
-
 	end 
+	
+	def load_step (doc)
+		
+	end
 	
 	def read_limits (node, limit_name)
 		min_time = node["min_"+limit_name]
@@ -219,57 +250,9 @@ class Game
 end
 
   
-class Clock 
-  attr_reader :allow
-  def initialize (min, max)
-    @min, @max = min, max
-    @allow = false
-  end
-  
-  def repeat_every(seconds)
-    @running = true
-    while @running do
-      time_spent = time_block { yield } # To handle -ve sleep interaval
-      sleep(seconds - time_spent) if time_spent < seconds
-      @running_time += 1
-      if (@running_time >= @min)
-        @min_expired_method.call
-      end
-      if (@running_time >= @max)
-        @max_expired_method.call
-        stop
-      end
-      
-    end
-  end
-  
-  def on_min_expired=(method_name)
-    @min_expired_method = method_name
-    @allow = true
-  end
-
-  def on_max_expired=(method_name)
-    @max_expired_method = method_name
-    @allow = false
-  end
-  
-  def stop
-    @running = false
-  end
-  
- private
- 
-  def time_block
-    start_time = Time.now
-    Thread.new { yield }
-    Time.now - start_time
-  end
-
-  
-end
 
 
-$framework = Framework.new
+$framework = Game.new
 
 i = Input.new
 
