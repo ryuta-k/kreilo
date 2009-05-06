@@ -160,18 +160,30 @@ class StepManager
 end
 
 
+
 class Game
   attr_reader :logger
 
 	def initialize (filename)
 		@debug = false
 		@steps = StepManager.new
-		Configuration.parse filename do |doc, doc_number| load_doc(doc, doc_number) end
-
-		return self
+		@logger = Logger.new(STDERR)
+		begin
+  		Configuration.parse filename do 
+  	 	  |doc, doc_number| 
+				load_doc(doc, doc_number) 
+		  end
+		rescue
+			@logger.fatal("Game file #{filename} could not be loaded, ignoring it")
+			return nil
+		else
+		  return self
+	  end
   end
 
  private
+  #several documents, first one is the game
+  #all other documents are steps 
   def load_doc(doc, doc_number)
 		if doc_number == 1 then
       load_game(doc)					
@@ -191,34 +203,69 @@ class Game
 
     @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
 
-    if not doc["turn"].nil?
-      @turns = TurnManager.new doc
-    end
-   
-    if not doc["player"].nil?
-      @players = PlayerManager.new doc
-    end
+    @turn = TurnManager.new doc
+ 
+    @players = PlayerManager.new doc
+    
      
 	end 
 
-#ok private class?  I need a clock counting seconds
   #clock should send a signal when the max_time is reached connect to this class finished
   class TurnManager 
-    attr_reader :skipable, :min_number, :max_number, :min_time_limit, :max_time_limit
+    attr_reader :allow_skip, :min_number, :max_number, :current, :min_time_limit, :max_time_limit
     def initialize (doc)
       turn = doc["turn"]
-      @min_number, @max_number = Configuration.read_limits(turn, "number")
-      @min_time_limit, @max_time_limit = Configuration.read_limits(turn, "time_limit")
-      @skipable = turn["skipable"]
+      if turn.nil?
+        @min_number = @max_number = @min_time_limit = @max_time_limit = nil
+        @skipable =true
+      else
+        @min_number, @max_number = Configuration.read_limits(turn, "number")
+        @min_time_limit, @max_time_limit = Configuration.read_limits(turn, "time_limit")
+        @skipable = turn["skipable"] |= true
+      end
+      @allow_skip = @skipable and @min_time_limit.nil?
       @current = 0
-      @clock = Clock.new(@min_time_limit, @max_time_limit)
+      @clock = Clock.new
     end
-    def start
+    
+    def new_turn
       @current += 1
-      @clock.start 
+      #TODO: create a emit_once in signaling.rb
+      if not @min_number.nil? and @current >= @min_number
+        emit min_number_turns_reached
+      end
+      if not @max_number.nil? and @current >= @max_number
+        emit max_number_turns_reached
+      end
+      @clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
+      @clock.set_alarm("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
+      @clock.start
     end
+    
+    def skip
+      if (@allow_skip)
+        @clock.stop
+        new_turn
+        return true
+      else
+        return false
+      end
+    end
+    
     def finish
       @clock.stop
+    end
+    
+    def seconds
+    	@clock.running_time
+    end
+    
+    def min_time_reached 
+      @allow_skip = true  
+    end
+    
+    def max_time_reached
+    	emit max_time_turn_reached
     end
   end
 		

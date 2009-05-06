@@ -1,5 +1,6 @@
 #Central configuration file of the framework
  
-#definition of this game in game1.yml
+#definition of the games in 
+# /configuration/name.yml
 games: 
-  names: game1
+  names: game1,game2

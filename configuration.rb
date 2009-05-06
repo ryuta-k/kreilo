@@ -50,19 +50,20 @@ class Configuration
  	
 	def self.read_limits (node, limit_name)
 	  min_time = node["min_"+limit_name]
-    if min_time.nil?
-      min_time = 0
-    end
+#    if min_time.nil?
+#      min_time = 0
+#    end
   
     max_time = node["max_"+limit_name]
-    if max_time.nil?
-      max_time = 0
-    end
+#    if max_time.nil?
+#      max_time = 0
+#    end
     
+    #this overrides if exists
     time_limit = node[limit_name]
     if not time_limit.nil?
-      min_time |= time_limit
-      max_time |= time_limit
+      min_time = time_limit
+      max_time = time_limit
     end
     
     return min_time, max_time

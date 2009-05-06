@@ -19,8 +19,20 @@ module Kreilo
 
 require 'configuration.rb'
 require 'data_source.rb'
+require 'signaling.rb'
 
+=begin
+class Object
+  include Signaling
+end
+=end
+
+=begin
+Outer class of the framework.
+Starts everything 
+=end
 class Site
+  attr_reader :games
 	def initialize
 		@games = Array.new
    	Configuration.parse $Site_configuration_file do |doc, a| load_site (doc) end
@@ -33,7 +45,8 @@ class Site
 		#load games
 	  doc["games"]["names"].split(',').each do |game_name|
 				filename = $Config_prefix + game_name.strip + ".yml"
-				@games.push Game.new filename				  
+				game = Game.new filename				  
+				@games.push game if not game.nil?
 	  end	
   end
 

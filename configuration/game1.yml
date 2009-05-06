@@ -38,10 +38,11 @@ player:
 #  group_mapping: fair
     
     
-  
+#location of the data configuration file  
 ---
 input:
   type: image
+  location: database.yml
   number: 1
   shared: true
   policy: fair 
