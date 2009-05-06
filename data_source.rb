@@ -181,6 +181,12 @@ class Game
 		  return self
 	  end
   end
+  
+  def start
+    @clock.start      
+  end		
+  
+  
 
  private
   #several documents, first one is the game
@@ -206,15 +212,21 @@ class Game
     end  
 
     @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
+    
+    @clock = AlarmClock.new
+    #TODO: does it has any meaning this? Can be used to make the user aware of time running out
+    #@clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
+    @clock.set_alarm_emit("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
+
+    
 
     @turn = TurnManager.new doc
  
     @players = PlayerManager.new doc
     
-     
-	end 
 
-		
+	end   
+  
 end
 
   

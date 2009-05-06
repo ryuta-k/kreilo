@@ -47,7 +47,7 @@ require 'alarmclock'
         emit max_number_turns_reached
       end
       @clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
-      @clock.set_alarm("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
+      @clock.set_alarm_emit("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
       @clock.start 
     end
     
@@ -74,7 +74,7 @@ require 'alarmclock'
     end
     
     def max_time_reached
-    	emit max_time_turn_reached
+    	emit max_time_reached
     end
   end
 end

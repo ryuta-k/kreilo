@@ -3,4 +3,4 @@
 #definition of the games in 
 # /configuration/name.yml
 games: 
-  names: game1,game2
+  names: game1,game_config_template

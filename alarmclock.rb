@@ -34,11 +34,27 @@ class AlarmClock
     @alarms << Alarm.new(name, time) unless name.nil?
   end
   
+=begin
+    method_name: name of the method of the caller that will be caller
+    when the alarm rings
+    time: how much time we want for the alarm to ring
+=end
   def set_alarm (method_name, time)
     del_alarm(method_name)
-    @alarms << Alarm.new(caller, method_name, time)
+    alarm = Alarm.new(caller, method_name, time)
+    @alarms << alarm
+    alarm
   end
 
+=begin
+    method_name: name of the method of the caller that will be emited
+    with emit by the caller when the alarm rings 
+    time: how much time we want for the alarm to ring
+=end
+  def set_alarm_emit(method_name, time)
+    set_alarm(method_name, time).emit_signal = true
+  end
+  
   def del_alarm (method_name)
     @alarms.delete_if {|a| a.name == method_name}
   end
@@ -52,7 +68,11 @@ class AlarmClock
       
       @alarms.each do |alarm|
         if @running_time >= alarm.time and not alarm.fired? 
-          alarm.caller.send alarm.name.to_sym
+          if alarm.emit_signal?
+            alarm.caller.send "emit".to_sym, alarm.name.to_sym
+          else
+            alarm.caller.send alarm.name.to_sym
+          end
           alarm.fired=true
         end
       end
@@ -88,13 +108,14 @@ class AlarmClock
   end
 
   class Alarm
-    attr_accessor :fired
+    attr_accessor :fired, :emit_signal
     attr_reader :name, :time 
     def initialize (caller, name, time)
       @caller = caller
       @name = name
       @time = time
       @fired = false
+      @emit_signal = false
     end
   end
   

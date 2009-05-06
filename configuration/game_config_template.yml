@@ -15,8 +15,8 @@
 game:
   debug: true
 #  min_time_limit: 15
-#  max_time_limit: 180
-  time_limit: 180
+#  max_time_limit: 
+#  time_limit:
 
 
 #defaults: no time limit, no limited number of turns, skipable
@@ -28,13 +28,13 @@ turn:
 #  min_time_limit: 10
 #  max_time_limit: 20
 #  time_limit:
-  skipable: true
+  skipable: false
   
 #group_mapping : where the player goes, TODO: only fair (each group same amount of players) is supported.
 #players mangling between steps not supported
 player:
-  number: 2
-#  groups: 2
+  number: 4
+  groups: 2
 #  group_mapping: fair
     
     
@@ -48,6 +48,12 @@ input:
   policy: fair 
   get_new: true #new data if more than one step? Default: false unless feedback of data is enabled
     
+  # optional
+  # cross feedback example from 2 players outputs to inputs
+input-feedback:    
+  mapping: 
+    1: 2
+    2: 1         
       
 # min_time_limit: minimum time till next step
 # max_time_limit:
@@ -56,11 +62,14 @@ input:
 # inherited: if the configuration is the same as the first step
 # if inherited: true, only differences of configurations have to be defined in new step
 step:
-  winning: output_agreement 
-  scoring: on_winning
-  annotating: won_answer
-
-#TODO: how to define the number of points received each scoring?
+  min_time_limit: 10
+  max_time_limit: 20
+  skipable: true
+  inherited: true 
+  winning: # output_agreement, most_votes, 
+  scoring: # on_winning, on_vote, on_agreement
+  annotating: # none, won_answer
+  
 
 # multiple: if possible to have multiple outputs (answers)  
 # type: free_text, restricted_text, categories, questions 
