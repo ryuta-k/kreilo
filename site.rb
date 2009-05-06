@@ -41,8 +41,6 @@ class Site
  private
 
   def load_site(doc)
-			
-		#load games
 	  doc["games"]["names"].split(',').each do |game_name|
 				filename = $Config_prefix + game_name.strip + ".yml"
 				game = Game.new filename				  

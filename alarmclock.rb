@@ -20,9 +20,11 @@ module Kreilo
 
 
 =begin
-Alarmclock
+  Alarmclock is able to keep a set of alarms related to a particular clock
+  If several clocks counting are needed, several AlarmClocks should be used.
+  
 =end
-class Clock 
+class AlarmClock 
   attr_reader :running
   attr_reader :running_time
   
@@ -32,13 +34,13 @@ class Clock
     @alarms << Alarm.new(name, time) unless name.nil?
   end
   
-  def set_alarm (name, time)
-    del_alarm(name)
-    @alarms << Alarm.new(caller, name, time)
+  def set_alarm (method_name, time)
+    del_alarm(method_name)
+    @alarms << Alarm.new(caller, method_name, time)
   end
 
-  def del_alarm (name)
-    @alarms.delete_if {|a| a.name == name}
+  def del_alarm (method_name)
+    @alarms.delete_if {|a| a.name == method_name}
   end
   
   def repeat_every(seconds)
@@ -54,12 +56,15 @@ class Clock
           alarm.fired=true
         end
       end
-      
     end
   end
   
   def start
-  	repeat_every 1 
+    if block_given?
+    	repeat_every { yield }
+		else
+			repeat_every 1
+		end
   end
     
   def stop

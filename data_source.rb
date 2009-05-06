@@ -168,13 +168,16 @@ class Game
 		@debug = false
 		@steps = StepManager.new
 		@logger = Logger.new(STDERR)
+		@logger.level = Logger::DEBUG #overwritten by the config 
 		begin
   		Configuration.parse filename do 
   	 	  |doc, doc_number| 
 				load_doc(doc, doc_number) 
 		  end
-		rescue
-			@logger.fatal("Game file #{filename} could not be loaded, ignoring it")
+		rescue Exception => e  
+  		@logger.error("Game file #{filename} could not be loaded, ignoring it")
+		  @logger.debug(e)
+			@logger.debug(e.backtrace.join("\n"))
 			return nil
 		else
 		  return self
@@ -199,6 +202,9 @@ class Game
 		if game["debug"] == true
       @debug = true
       ActiveRecord::Base.logger = Logger.new(STDERR)  
+      @logger.level = Logger::DEBUG
+    else
+      @logger.level = Logger::WARNING
     end  
 
     @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
@@ -212,7 +218,7 @@ class Game
 
   #clock should send a signal when the max_time is reached connect to this class finished
   class TurnManager 
-    attr_reader :allow_skip, :min_number, :max_number, :current, :min_time_limit, :max_time_limit
+    attr_reader :allow_skip, :min_number, :max_number, :current
     def initialize (doc)
       turn = doc["turn"]
       if turn.nil?
@@ -225,7 +231,7 @@ class Game
       end
       @allow_skip = @skipable and @min_time_limit.nil?
       @current = 0
-      @clock = Clock.new
+      @clock = AlarmClock.new
     end
     
     def new_turn
@@ -239,7 +245,7 @@ class Game
       end
       @clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
       @clock.set_alarm("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
-      @clock.start
+      @clock.start 
     end
     
     def skip
