@@ -15,6 +15,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require 'logger'
+
 module Kreilo
 
 require 'configuration'
@@ -22,33 +24,74 @@ require 'globals'
 require 'data_source'
 require 'signaling'
 
-=begin
-class Object
-  include Signaling
-end
-=end
 
 =begin
 Outer class of the framework.
 Starts everything 
 =end
+
 class Site
   attr_reader :games
+  
 	def initialize
+		@game_types = Hash.new
 		@games = Array.new
-   	Configuration.parse $Site_configuration_file do |doc, a| load_site (doc) end
+		$logger = Logger.new(STDERR)
+		$logger.level = Logger::DEBUG #overwritten by the config 
+  
+   	Configuration.parse $Site_configuration_file do |doc, a| 
+			if doc["debug"] == true
+		    $logger.level = Logger::DEBUG
+			else
+		    $logger.level = Logger::WARN
+			end	
+		  doc["games"]["names"].split(',').each do |game_name|
+				game_name.strip!
+				filename = $Config_prefix + game_name + ".yml"
+				@game_types[game_name] = filename
+			end
+				
+		end
+			  	
+	
 	end
 	
- private
+	def start_game_type(id)
+		  clean_dead_games
+			game = Game.new @game_types[id] 
+			if game.nil?
+				return nil
+			else
+				@games << game
+			end
+		  game.start
+  	  SigSlot.connect(game,:max_time_reached,self,:on_game_finished)			  	
+			return @games.rindex(game) #return the index in the array
+	end
+	
+	def on_game_finished
+		puts "game finished"
+		puts caller.class
+		finish
 
-  def load_site(doc)
-	  doc["games"]["names"].split(',').each do |game_name|
-				filename = $Config_prefix + game_name.strip + ".yml"
-				game = Game.new filename				  
-				@games.push game if not game.nil?
-	  end	
-  end
+	end
 
+
+	def finish
+		@games.each {|game| game.finish}
+		$logger.info "The site and all the games are finished"
+	end
+	
+	private
+	
+=begin
+	periodically @games not alive? should be deleted from the array
+=end
+	def clean_dead_games
+	  if @games.size > 10000
+		   @games.delete_if{ |type,game| !game.alive?}		
+		end	
+	end
 end
 
 end
@@ -56,8 +99,11 @@ end
 
 
 framework = Kreilo::Site.new
-
-
+game_id=framework.start_game_type("game1")
+while framework.games[game_id].alive?
+  puts framework.games[game_id].running_time 
+  sleep(1)
+end
 
 =begin
 #test

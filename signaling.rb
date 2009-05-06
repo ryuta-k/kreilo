@@ -79,5 +79,11 @@ module Slotty
   end  
 end 
 
+#Add the signal slot mechanism to every object of our system
+class Object
+  include Signaling
+end
+
+
 
 end

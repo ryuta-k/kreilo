@@ -2,5 +2,6 @@
  
 #definition of the games in 
 # /configuration/name.yml
+debug: true
 games: 
   names: game1,game_config_template

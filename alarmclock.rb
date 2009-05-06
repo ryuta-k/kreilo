@@ -39,8 +39,9 @@ class AlarmClock
     when the alarm rings
     time: how much time we want for the alarm to ring
 =end
-  def set_alarm (method_name, time)
+  def set_alarm (caller, method_name, time)
     del_alarm(method_name)
+    puts caller.class
     alarm = Alarm.new(caller, method_name, time)
     @alarms << alarm
     alarm
@@ -51,8 +52,8 @@ class AlarmClock
     with emit by the caller when the alarm rings 
     time: how much time we want for the alarm to ring
 =end
-  def set_alarm_emit(method_name, time)
-    set_alarm(method_name, time).emit_signal = true
+  def set_alarm_emit(caller, method_name, time)
+    set_alarm(caller, method_name, time).emit_signal = true
   end
   
   def del_alarm (method_name)
@@ -67,8 +68,8 @@ class AlarmClock
       @running_time += seconds
       
       @alarms.each do |alarm|
-        if @running_time >= alarm.time and not alarm.fired? 
-          if alarm.emit_signal?
+        if @running_time >= alarm.time and not alarm.fired 
+          if alarm.emit_signal
             alarm.caller.send "emit".to_sym, alarm.name.to_sym
           else
             alarm.caller.send alarm.name.to_sym
@@ -81,7 +82,7 @@ class AlarmClock
   
   def start
     if block_given?
-    	repeat_every { yield }
+    	repeat_every (1){ yield }
 		else
 			repeat_every 1
 		end
@@ -109,7 +110,7 @@ class AlarmClock
 
   class Alarm
     attr_accessor :fired, :emit_signal
-    attr_reader :name, :time 
+    attr_reader :name, :time, :caller
     def initialize (caller, name, time)
       @caller = caller
       @name = name
