@@ -17,9 +17,10 @@
 
 module Kreilo
 
-require 'configuration.rb'
-require 'data_source.rb'
-require 'signaling.rb'
+require 'configuration'
+require 'globals'
+require 'data_source'
+require 'signaling'
 
 =begin
 class Object
