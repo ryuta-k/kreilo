@@ -26,6 +26,7 @@ module Kreilo
 
 require 'configuration'
 require 'turnmanager'
+require 'alarmclock'
 require 'signaling'
 
 
@@ -166,22 +167,24 @@ class Game
   #FIXME: this include should be global! See signaling.rb
   include Signaling
 
-	def initialize (filename)
-		@debug = false
-		@steps = StepManager.new
-		begin
-  		Configuration.parse filename do 
-  	 	  |doc, doc_number| 
-				load_doc(doc, doc_number) 
-		  end
-		rescue Exception => e  
-  		$logger.error("Game file #{filename} could not be loaded, ignoring it")
-		  $logger.debug(e)
-			$logger.debug(e.backtrace.join("\n"))
-			return nil
-		else
-		  return self
-	  end
+  def initialize (filename)
+    @debug = false
+    @steps = StepManager.new
+    begin
+      Configuration.parse filename do 
+        |doc, doc_number| 
+        load_doc(doc, doc_number) 
+      end
+    rescue Exception => e  
+
+      $logger.error("Game file #{filename} could not be loaded, ignoring it")
+      $logger.debug(e)
+      $logger.debug(e.backtrace.join("\n"))
+      raise "Game not loaded"
+      return nil
+    else
+      return self
+    end
   end
   
   def start

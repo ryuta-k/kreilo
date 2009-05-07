@@ -18,30 +18,51 @@
 require 'logger'
 
 $LOAD_PATH.unshift( File.dirname(__FILE__) )
-#$Working_directory = File.dirname(__FILE__) 
 
 module Kreilo
 
 require 'globals'
-
 require 'configuration'
+require  'data_source'
+require "signaling"
+
+
 #require File.join(File.dirname(__FILE__), 'data_source')
-require File.join($Working_directory, 'data_source')
-
-require 'signaling'
-
+#require File.join($Working_directory, 'data_source')
+#autoload :SigSlot, File.join($Working_directory, 'signaling')
+#autoload :Game, File.join($Working_directory, 'data_source')
+#autoload :Game, File.join(File.dirname(__FILE__), 'data_source') 
+#require File.join($Working_directory, 'signaling')
 
 =begin
 Outer class of the framework.
 Starts everything 
+ def Kreilo.const_missing(name)
+    puts constants
+    @looked_for ||= {}
+    str_name = name.to_s
+    raise "Class not found: #{name}" if @looked_for[str_name]
+    @looked_for[str_name] = 1
+    file = str_name.downcase
+    require "data_source"
+    require "signaling"
+    require "configuration"
+    require "alarmclock"
+    klass = const_get(name)
+    @looked_for = nil
+    return klass if klass
+    raise "Class not found: #{name}"
+  end
 =end
+
 
 class Site
   attr_reader :games
   
 	def initialize
-                puts  File.dirname(__FILE__) 
-
+#                puts  File.dirname(__FILE__) 
+#                puts $LOAD_PATH
+                puts "new site has been created"
 		@game_types = Hash.new
 		@games = Array.new
 		$logger = Logger.new(STDERR)
@@ -63,10 +84,10 @@ class Site
 			  	
 	
 	end
-	
 	def start_game_type(id)
+                  puts "new game started"
 		  clean_dead_games
-			game = Game.new @game_types[id] 
+			game = Kreilo::Game.new @game_types[id] 
 			if game.nil?
 				return nil
 			else
@@ -105,15 +126,27 @@ end
 end
 
 
+=begin
 
 framework = Kreilo::Site.new
 game_id=framework.start_game_type("game1")
 while framework.games[game_id].alive?
   puts framework.games[game_id].running_time 
-  sleep(1)
+  sleep(0.1)
+end
+game_id=framework.start_game_type("game1")
+while framework.games[game_id].alive?
+  puts framework.games[game_id].running_time 
+  sleep(0.1)
+end
+game_id=framework.start_game_type("game1")
+while framework.games[game_id].alive?
+  puts framework.games[game_id].running_time 
+  sleep(0.1)
 end
 
-=begin
+
+
 #test
 input = InputData.new
 input.times_processed = 1
