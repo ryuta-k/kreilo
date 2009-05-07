@@ -3,5 +3,9 @@ Web interface for the Kreilo human computation engine
 
 The engine itself lives in lib
 
+To personalize it:
+The main layout (seen in all the pages of the sites) resides in app/views/layout/main.html.erb
+The css file resides in public/stylesheets/private.css
+The configuration of the engine resides in lib/configuration/
 
 
