@@ -17,11 +17,17 @@
 
 require 'logger'
 
+$LOAD_PATH.unshift( File.dirname(__FILE__) )
+#$Working_directory = File.dirname(__FILE__) 
+
 module Kreilo
 
-require 'configuration'
 require 'globals'
-require 'data_source'
+
+require 'configuration'
+#require File.join(File.dirname(__FILE__), 'data_source')
+require File.join($Working_directory, 'data_source')
+
 require 'signaling'
 
 
@@ -34,12 +40,14 @@ class Site
   attr_reader :games
   
 	def initialize
+                puts  File.dirname(__FILE__) 
+
 		@game_types = Hash.new
 		@games = Array.new
 		$logger = Logger.new(STDERR)
 		$logger.level = Logger::DEBUG #overwritten by the config 
-  
-   	Configuration.parse $Site_configuration_file do |doc, a| 
+                conf_file = $Site_configuration_file #File.join( $Working_directory, $Site_configuration_file)
+         	Configuration.parse conf_file do |doc, a| 
 			if doc["debug"] == true
 		    $logger.level = Logger::DEBUG
 			else
@@ -47,7 +55,7 @@ class Site
 			end	
 		  doc["games"]["names"].split(',').each do |game_name|
 				game_name.strip!
-				filename = $Config_prefix + game_name + ".yml"
+				filename = File.join($Config_prefix, game_name + ".yml")
 				@game_types[game_name] = filename
 			end
 				

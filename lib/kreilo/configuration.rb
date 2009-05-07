@@ -26,7 +26,7 @@ class Configuration
   
   def self.parse (file) 
     if not File.exists? file
-      raise "configuration file #{file} can not be found."
+      raise "configuration file #{file} can not be found in " + $Working_directory
     end
     doc_number = 0
     data = YAML::load_documents(File.open(file, "r")) do |doc| 
@@ -43,8 +43,12 @@ class Configuration
     end    
   end
   
-  def self.loadDatabase 
-    YAML::load(File.open($Database_configuration_file))  
+  def self.loadDatabase
+    db_file = $Database_configuration_file
+    if not File.exists? db_file
+      raise "Database file #{db_file} can not be found in " + $Working_directory
+    end
+    YAML::load(File.open(db_file))  
   end
   
  	

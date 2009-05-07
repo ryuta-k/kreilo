@@ -16,10 +16,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Kreilo
+#TODO
+  $Working_directory = File.dirname(__FILE__)
+  $Config_prefix =  File.join( $Working_directory,  "configuration" )
+#  $Config_prefix =  "configuration" 
 
-  $Config_prefix = "configuration/"
-  $Site_configuration_file = $Config_prefix + "site.yml"
-  $Database_configuration_file = $Config_prefix + "database.yml"
-
-
+  $Site_configuration_file = File.join( $Config_prefix, "site.yml" )
+  $Database_configuration_file = File.join( $Config_prefix, "database.yml" )
 end
