@@ -1,0 +1,51 @@
+body {
+  width: 90%;
+  margin: 10px auto;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid gray;
+  line-height: 130%;
+}
+
+#header {
+padding: .5em ;
+background-color: #ddd;
+border-bottom: 1px solid gray;
+margin: 0px;
+}
+
+#header h1 {
+  font-size: 40px;
+}
+
+#header h2 {
+padding: 0px;
+font-size: 16px;
+text-align: right;
+}
+
+#title {
+  font-size: 24px;
+  padding: .5em ;
+}
+
+
+#login {
+  float: right; 
+  text-align: right;
+/*   padding: 70px 0 0 0; */
+}
+
+#tools {
+  float: right; 
+  text-align: right;
+/*   padding: 70px 0 0 0; */
+}
+
+
+
+#contents{
+
+  text-align: left;
+  font-size: 16px;
+}
