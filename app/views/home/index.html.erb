@@ -3,7 +3,7 @@
 <div id='hidden' style='display:none'></div>
 
 <ul id="game_link_list">
-<% $site.games_available.each do |game_name| %>
+<% $site.types_available.each do |game_name| %>
   <li><%= link_to game_name, :controller => 'game', :action => 'show', :id => game_name %></li>
   <li><%= link_to_remote game_name, :url => {:action => 'new_game', :id => game_name}  %></li>
 

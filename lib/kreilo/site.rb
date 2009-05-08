@@ -23,7 +23,7 @@ module Kreilo
 
 require 'globals'
 require 'configuration'
-require 'data_source'
+require 'game'
 require 'signaling'
 
 =begin
@@ -52,7 +52,7 @@ class Site
   
   def initialize
     puts "new site has been created"
-    @game_types = Hash.new
+    @game_types = Array.new
     @games = Array.new
     $logger = Logger.new(STDERR)
     $logger.level = Logger::DEBUG #overwritten by the config 
@@ -66,21 +66,20 @@ class Site
       end	
       doc["games"]["names"].split(',').each do |game_name|
         game_name.strip!
-        filename = File.join($Config_prefix, game_name + ".yml")
-        @game_types[game_name] = filename
+        @game_types << game_name
       end
 			
     end	  	
   end
 	
-  def new_game_of_type(id)
-    puts "game of type #{id} requested"
+  def new_game_of_type(game_type)
+    puts "game of type #{game_type} requested"
     clean_dead_games
-    if not @game_types.has_key? id
-      raise "the game type requested (#{id}) can not be found in this site, game available:  " + games_available.join("  ")
+    if not @game_types.include? game_type
+      raise "the game type requested (#{game_type}) can not be found in this site, game available:  " + games_available.join("  ")
     end
 
-    game = Kreilo::Game.new @game_types[id]
+    game = Kreilo::Game.new game_type
     if game.nil?
       puts "Null game returned"
       return nil
@@ -100,11 +99,11 @@ class Site
 
   def finish
     @games.each {|game| game.finish}
-    $logger.info "The site and all the games are finished"
+    $logger.info "The site and all the games have been finalized"
   end
 
   def types_available
-    @game_types.keys
+    @game_types
   end
   
   def game (id) 

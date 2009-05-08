@@ -18,16 +18,9 @@
 #libraries
 require "rubygems"
 require "activerecord"
-require 'logger'  
 
 
 module Kreilo
-
-
-require 'configuration'
-require 'turnmanager'
-require 'alarmclock'
-require 'signaling'
 
 
 
@@ -159,100 +152,6 @@ class StepManager
 	
 end
 
-
-
-class Game
-  attr_reader :logger, :started
-  attr_accessor :id  
-  #FIXME: this include should be global! See signaling.rb
-  include Signaling
-
-  def initialize (filename)
-    @debug = false
-    @started = false
-    @steps = StepManager.new
-    begin
-      Configuration.parse filename do 
-        |doc, doc_number| 
-        load_doc(doc, doc_number) 
-      end
-    rescue Exception => e  
-
-      $logger.error("Game file #{filename} could not be loaded, ignoring it")
-      $logger.debug(e)
-      $logger.debug(e.backtrace.join("\n"))
-      raise "Game not loaded"
-      return nil
-    else
-      return self
-    end
-  end
-  
-  def start
-    @stated = true
-    @working_thread = Thread.new {@clock.start }
-    return self
-  end
-		
-  def finish
-    @clock.stop
-    @working_thread.kill
-  end
-
-  def running_time
-    @clock.running_time
-  end
-
-  def alive?
-    not @started or @working_thread.alive?
-  end
-  
-  def test
-    puts "arrived signal"
-  end
-  
-  def on_max_time_reached
-    @clock.stop
-    emit :max_time_reached   	
-  end
-  
- private
-  #several documents, first one is the game
-  #all other documents are steps 
-  def load_doc(doc, doc_number)
-		if doc_number == 1 then
-      load_game(doc)					
-    else
-      @steps.load doc
-    end
-  end
-      
-	def load_game (doc)	
-		
-	  game = doc['game']
-
-		if game["debug"] == true
-      @debug = true
-      ActiveRecord::Base.logger = Logger.new(STDERR)  
-    end  
-
-    @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
-    
-    @clock = AlarmClock.new
-    #TODO: does it has any meaning this? Can be used to make the user aware of time running out
-    #@clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
-    @clock.set_alarm(self, "on_max_time_reached", @max_time_limit) unless @max_time_limit.nil?
-
-    
-
-    @turn = TurnManager.new doc
- 
-    @players = PlayerManager.new doc
-    
-
-	end   
-  
-end
 
   
 
