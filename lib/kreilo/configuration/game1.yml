@@ -16,7 +16,7 @@ game:
   debug: true
 #  min_time_limit: 15
 #  max_time_limit: 180
-  time_limit: 3
+  time_limit: 300
 
 
 #defaults: no time limit, no limited number of turns, skipable

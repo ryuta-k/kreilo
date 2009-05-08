@@ -162,13 +162,14 @@ end
 
 
 class Game
-  attr_reader :logger
+  attr_reader :logger, :started
   attr_accessor :id  
   #FIXME: this include should be global! See signaling.rb
   include Signaling
 
   def initialize (filename)
     @debug = false
+    @started = false
     @steps = StepManager.new
     begin
       Configuration.parse filename do 
@@ -188,7 +189,9 @@ class Game
   end
   
   def start
+    @stated = true
     @working_thread = Thread.new {@clock.start }
+    return self
   end
 		
   def finish
@@ -201,7 +204,7 @@ class Game
   end
 
   def alive?
-  	@working_thread.alive?
+    not @started or @working_thread.alive?
   end
   
   def test

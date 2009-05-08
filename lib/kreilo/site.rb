@@ -49,7 +49,6 @@ Starts everything
 
 
 class Site
-  attr_reader :games
   
   def initialize
     puts "new site has been created"
@@ -72,21 +71,26 @@ class Site
       end
 			
     end	  	
-	end
+  end
 	
-	def new_game_of_type(id)
-		puts "new game started"
-		clean_dead_games
-		game = Kreilo::Game.new @game_types[id]
-		if game.nil?
-			return nil
-		else
-			@games << game
-		end
-                game.id = @games.rindex(game)
-		SigSlot.connect(game,:max_time_reached,self,:on_game_finished)			  	
-		return game 
-	end
+  def new_game_of_type(id)
+    puts "game of type #{id} requested"
+    clean_dead_games
+    if not @game_types.has_key? id
+      raise "the game type requested (#{id}) can not be found in this site, game available:  " + games_available.join("  ")
+    end
+
+    game = Kreilo::Game.new @game_types[id]
+    if game.nil?
+      puts "Null game returned"
+      return nil
+    else
+      @games << game
+    end
+    game.id = @games.rindex(game)
+    SigSlot.connect(game,:max_time_reached,self,:on_game_finished)			  	
+    return game 
+  end
 	
   def on_game_finished
     puts "game finished"
@@ -97,16 +101,20 @@ class Site
   def finish
     @games.each {|game| game.finish}
     $logger.info "The site and all the games are finished"
-	end
+  end
 
-  def games_available
+  def types_available
     @game_types.keys
   end
-	
+  
+  def game (id) 
+    @games[id]
+  end
+
 	private
 	
 =begin
-	periodically games not alive? should be deleted from the array
+  periodically delete games not alive? from the array
 =end
   def clean_dead_games
     if @games.size > 10000

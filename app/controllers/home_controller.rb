@@ -11,4 +11,15 @@ def index
 
 end
 
+
+def new_game
+
+  id = $site.new_game_of_type(params[:id]).id
+  if id.nil?
+    raise "Game of type #{params[:id]} has been requested but the engine doesn't recognize it"
+  end
+  redirect_to :controller => 'game', :action => 'show', :id => id
+
+end
+
 end
