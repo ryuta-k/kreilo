@@ -1,0 +1,7 @@
+
+
+Time: <div id="countdown"> </div>
+
+<%= periodically_call_remote(:frequency => 0.5, 
+   :update => 'countdown', :url => {:action => :update_game_time}) %>
+

@@ -5,4 +5,10 @@ class GameController < ApplicationController
     @game.start
   end
 
+  def update_game_time
+    raise @game.running_time.to_s
+    render :partial => 'countdown', :layout => false
+    #render :update do |page| page.replace_html 'warning', "Invalid options supplied" end
+  end
+
 end

@@ -4,8 +4,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :user_session
   map.resources :game
   map.root :controller => "home", :action => "index"
-#  map.root :controller => "home", :action => "index"
+  map.connect ':controller/:action/:id' 
 end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 
