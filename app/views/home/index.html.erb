@@ -2,7 +2,7 @@
 <p>typical example</p>
 
 <ul id="game_link_list">
-<% @site.games_available.each do |game_name| %>
+<% $site.games_available.each do |game_name| %>
   <li><%= link_to game_name, :controller => 'game', :action => 'show', :id => game_name %></li>
 <% end %>
 </ul>
