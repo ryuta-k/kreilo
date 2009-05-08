@@ -110,6 +110,10 @@ class Site
 		@games.each {|game| game.finish}
 		$logger.info "The site and all the games are finished"
 	end
+
+        def games_available
+          @game_types.keys
+        end
 	
 	private
 	
