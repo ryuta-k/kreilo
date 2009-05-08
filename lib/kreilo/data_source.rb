@@ -163,7 +163,7 @@ end
 
 class Game
   attr_reader :logger
-  
+  attr_accessor :id  
   #FIXME: this include should be global! See signaling.rb
   include Signaling
 
