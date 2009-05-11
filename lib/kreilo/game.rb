@@ -45,7 +45,7 @@ class Game
       Configuration.parse filename do 
         |doc, doc_number| 
         load_doc(doc, doc_number) 
-      end
+       end
     rescue Exception => e  
 
       $logger.error("Game file #{filename} could not be loaded, ignoring it")
@@ -68,10 +68,15 @@ class Game
     @clock.stop
     @working_thread.kill
   end
-
+#FIXME: texts sent to interface can be personalized by user
+#use the I18N files for this 
   def running_time
     if @max_time_limit.nil?
-      return "no limit"
+      if @clock.running 
+        return "stopped"
+      else
+        return "no limit"
+      end
     else
       @max_time_limit - @clock.running_time
     end
