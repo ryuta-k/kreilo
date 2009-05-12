@@ -56,7 +56,9 @@ module Kreilo
     end
 
     def del_alarm (method_name)
+      puts "ants "  + @alarms.size.to_s
       @alarms.delete_if {|a| a.name == method_name}
+      puts "aft " + @alarms.size.to_s
     end
 
     def repeat_every(seconds)

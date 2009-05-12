@@ -71,6 +71,7 @@ class Game
   end
 
   def finish
+    @state = GameState::Dead
     @clock.stop
   end
 
@@ -90,7 +91,7 @@ class Game
   end
 
   def alive?
-    not @state == GameState::Running or @clock.running
+    not @state == GameState::Dead 
   end
 
   #either adding a player or the timeout of waiting for players will make us be in Waiting_start state
@@ -182,6 +183,7 @@ class GameState
   Waiting_start = 2 
   #game is running
   Running = 3
+  Dead = 4
 end
 
 end

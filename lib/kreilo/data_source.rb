@@ -111,6 +111,10 @@ class PlayerManager
     @groups_number = doc["groups"]
     @players_number = doc["number"] 
     @max_wait = doc["max_wait"]
+    #FIXME: this goes to the global config class
+    if @max_wait.nil?
+      @max_wait = 10
+    end
 
     @wait_clock = AlarmClock.new
     #players on this game 

@@ -17,8 +17,9 @@ class TestKreilo
       game.add_player "jugador1"
       while not game.runnable?
         puts game.time_to_wait_players
-        sleep (1)
+      sleep(1)
         game.add_player "jugador2"
+        sleep (100)
       end
       games << game.run.id
     end
