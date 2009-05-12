@@ -8,9 +8,19 @@ class TestKreilo
     site = Kreilo::Site.new
     games = []
     site.types_available.each do |game_n|
-      game = site.new_game_of_type (game_n)
-      Kreilo::SigSlot.connect(game,:max_time_reached,self,:on_game_finished)	
-      games << game.start.id
+      game = site.new_game_of_type game_n
+      puts "new game of type #{game_n}"
+      if game.nil?
+        raise "nill gamee"
+      end
+      Kreilo::SigSlot.connect(game,:max_time_reached,self,:on_game_finished)
+      game.add_player "jugador1"
+      while not game.runnable?
+        puts game.time_to_wait_players
+        sleep (1)
+        game.add_player "jugador2"
+      end
+      games << game.run.id
     end
 
     running = true

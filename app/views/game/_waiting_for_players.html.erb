@@ -1,0 +1,5 @@
+<div id="waiting_for_players"> <%=time %></div>
+
+<%= periodically_call_remote(:frequency => 1, 
+   :update => 'waiting_for_players', :url => {:action => :waiting_for_players}) %>
+

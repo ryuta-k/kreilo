@@ -22,17 +22,18 @@ require "activerecord"
 
 module Kreilo
 
+require 'signaling'
+require 'alarmclock'
 
+  class InputData < ActiveRecord::Base
+    has_many :annotations
 
-class InputData < ActiveRecord::Base
-  has_many :annotations
-  
-end
+  end
 
-class Annotation < ActiveRecord::Base
-  belongs_to :inputdata
-  
-end
+  class Annotation < ActiveRecord::Base
+    belongs_to :inputdata
+
+  end
 
 
 =begin rdoc
@@ -58,7 +59,7 @@ class Input
       aclass.establish_connection(dbconfig)
     }
   end
-  
+
   #Read a batch of data 
   def get
     send("get_" + @policy).to_sym
@@ -78,78 +79,112 @@ end
 
 class InputManager
   attr_reader :shared
-  
-	def initialize 
-	end
+
+  def initialize 
+  end
 
   def load (doc)
-		options = doc["input"]
-		
-		@shared = options["shared"]		
-		@inputs = Array.new.insert Input.new doc
-		
-	end
-	def get_new_input
-		if not @shared
-			@inputs.insert Input.new
-		end
-		@inputs.last
-	end
-	
+    options = doc["input"]
+
+    @shared = options["shared"]		
+    @inputs = Array.new.insert Input.new doc
+
+  end
+  def get_new_input
+    if not @shared
+      @inputs.insert Input.new
+    end
+    @inputs.last
+  end
+
 end
 
 #Manages Players and Groups
 class PlayerManager
+  include Signaling
+
   attr_reader :groups_number
   attr_reader :players_number
-  
-	def initialize (doc)
-		
+
+  def initialize (doc)
+
     @groups_number = doc["groups"]
-	  @players_number = doc["number"] 
-		
-		@players = Array.new
-		@players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
-	end
-	
-	
+    @players_number = doc["number"] 
+    @max_wait = doc["max_wait"]
+
+    @wait_clock = AlarmClock.new
+    #players on this game 
+    @players = Array.new
+#    @players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
+#    @players_queue = []
+  end
+
+  def enough?
+    if @players.size > @players_number
+      raise "Too many players joined this game"
+    end
+    @players.size == @players_number
+  end
+
+  #all the players in the same clock.
+  #this means that when waiting for more than one player, the clock will restart
+  #this is cool and OK IMHO
+  def add_to_queue (player)
+    @players.push Player.new(player)
+    @wait_clock.set_alarm_emit(self, "max_wait_reached", @max_wait) unless @max_wait.nil?
+    @wait_clock.start
+  end
+
+  def number
+    @players.size
+  end
+
+  def time_to_wait 
+    @max_wait - @wait_clock.running_time 
+  end
+  
+
 end
+
 
 #one player
 class Player
-	def initialize
-		
-		
-	end
-	
-	def connect_to_input (input)
-		@input = input
-	end
-	
-	
+  attr_reader :ready
+  def initialize (player)
+    @player_id = player
+    return self
+  end
+
+
+  def connect_to_input (input)
+    @input = input
+  end
+
 end
 
 
+
+
 class Step
-	def initialize(doc)
-		
-	end
-	
-	
+  def initialize(doc)
+
+  end
+
+
 end
 
 #manage input output feedback and output face of steps
 class StepManager
-	def initialize 
-		@inputs = InputManager.new 
-		@steps = Array.new		
-	end
-	
-	def load (doc)
-		@inputs.load doc
-		@steps.push Step.new doc 
-	end
-	
+  def initialize 
+    @inputs = InputManager.new 
+    @steps = Array.new		
+  end
+
+  def load (doc)
+    @inputs.load doc
+    @steps.push Step.new doc 
+  end
+
 end
 
 

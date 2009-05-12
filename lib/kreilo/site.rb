@@ -51,7 +51,7 @@ Starts everything
 class Site
   
   def initialize
-    puts "new site has been created"
+    puts "new site has been created, congratulations"
     @game_types = Array.new
     @games = Array.new
     $logger = Logger.new(STDERR)
@@ -73,12 +73,17 @@ class Site
   end
 	
   def new_game_of_type(game_type)
-    puts "game of type #{game_type} requested"
+    #clean already finished games
     clean_dead_games
+
+    puts "game of type #{game_type} requested"
     if not @game_types.include? game_type
       raise "the game type requested (#{game_type}) can not be found in this site, game available:  " + games_available.join("  ")
     end
-
+    game = @games.detect {|g| g.state == Kreilo::GameState::Waiting_players }
+    if not game.nil?
+      return game #we are done
+    end
     game = Kreilo::Game.new game_type
     if game.nil?
       puts "Null game returned"

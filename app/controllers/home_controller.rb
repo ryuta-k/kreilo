@@ -14,11 +14,23 @@ end
 
 def new_game
 
-  id = $site.new_game_of_type(params[:id]).id
-  if id.nil?
+  game = $site.new_game_of_type(params[:id])
+  if game.id.nil?
     raise "Game of type #{params[:id]} has been requested but the engine doesn't recognize it"
   end
-  redirect_to :controller => 'game', :action => 'show', :id => id
+
+  i = 0
+  #the game we the site assigned to us can not receive more players
+  while not game.add_player(current_user_session) do
+    game = $site.new_game_of_type(params[:id])
+    #TODO: delete this before going to production
+    i += 1
+    if (1 >10)
+      raise "Something is going wrong with the assignments of players"
+    end
+  end
+
+  redirect_to :controller => 'game', :action => 'wait_for_players', :id => id
 
 end
 

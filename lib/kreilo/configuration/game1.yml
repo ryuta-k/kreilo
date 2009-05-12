@@ -34,6 +34,7 @@ turn:
 #players mangling between steps not supported
 player:
   number: 2
+  max_wait: 10
 #  groups: 2
 #  group_mapping: fair
     
