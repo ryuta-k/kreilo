@@ -25,12 +25,16 @@ def new_game
     game = $site.new_game_of_type(params[:id])
     #TODO: delete this before going to production
     i += 1
-    if (1 >10)
+    if (i >5)
       raise "Something is going wrong with the assignments of players"
     end
   end
+  if (i == 0)
+    puts "fresh game"
+  end
 
-  redirect_to :controller => 'game', :action => 'wait_for_players', :id => id
+#  redirect_to :controller => 'game', :action => 'wait_for_players'#, :id => game.id
+  redirect_to :controller => 'game', :action => 'show'#, :id => game.id
 
 end
 

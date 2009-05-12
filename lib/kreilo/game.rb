@@ -104,11 +104,10 @@ class Game
   end
 
   def add_player (player)
-    if @state == GameState::Waiting_players
-      @players.add_to_queue(player)
-    else
+    unless @state == GameState::Waiting_players
       return false
     end
+    @players.add_to_queue(player)
     if @players.enough?
       @state = GameState::Waiting_start
     end
