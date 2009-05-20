@@ -4,7 +4,7 @@ module ApplicationHelper
 Dir["#{RAILS_ROOT}/lib/kreilo/*.rb"].each do |file|
   require_dependency file
 end
-
+ActiveRecord::Base.logger = Logger.new(STDOUT) 
 =begin
 #site is created only once, can be accessed globally
 $site ||= Kreilo::Site.new

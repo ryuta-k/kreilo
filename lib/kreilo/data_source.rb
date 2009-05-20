@@ -18,12 +18,11 @@
 #libraries
 require "rubygems"
 require "activerecord"
-
+require 'actiontimer'
 
 module Kreilo
 
-require 'signaling'
-require 'alarmclock'
+require 'timer'
 
   class InputData < ActiveRecord::Base
     has_many :annotations
@@ -101,6 +100,7 @@ end
 
 #Manages Players and Groups
 class PlayerManager
+
   include Signaling
 
   attr_reader :groups_number
@@ -115,12 +115,13 @@ class PlayerManager
     if @max_wait.nil?
       @max_wait = 10
     end
-
-    @wait_clock = AlarmClock.new
+   puts "inititiaial"
+    @wait_clock = Timer.new 
+    @wait_clock.single_shot(@max_wait) { puts "aaaaaaaaaaaaa"; emit :max_wait_reached} 
     #players on this game 
     @players = Array.new
-#    @players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
-#    @players_queue = []
+    #    @players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
+    #    @players_queue = []
   end
 
   def enough?
@@ -130,12 +131,14 @@ class PlayerManager
     @players.size == @players_number
   end
 
+  
   #all the players in the same clock.
   #this means that when waiting for more than one player, the clock will restart
   #this is cool and OK IMHO
   def add_to_queue (player)
+    puts "aaaaaaaalll"
+    @wait_clock.stop
     @players.push Player.new(player)
-    @wait_clock.set_alarm_emit(self, "max_wait_reached", @max_wait) unless @max_wait.nil?
     @wait_clock.start
   end
 
@@ -144,9 +147,9 @@ class PlayerManager
   end
 
   def time_to_wait 
-    @max_wait - @wait_clock.running_time 
+    @max_wait - @wait_clock.counter
   end
-  
+
 
 end
 

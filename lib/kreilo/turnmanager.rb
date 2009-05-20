@@ -17,8 +17,7 @@
 
 
 module Kreilo
-
-require 'alarmclock'
+  require 'timer'
 
   class TurnManager 
     attr_reader :allow_skip, :min_number, :max_number, :current
@@ -34,7 +33,6 @@ require 'alarmclock'
       end
       @allow_skip = @skipable and @min_time_limit.nil?
       @current = 0
-      @clock = AlarmClock.new
     end
     
     def new_turn
@@ -46,9 +44,9 @@ require 'alarmclock'
       if not @max_number.nil? and @current >= @max_number
         emit max_number_turns_reached
       end
-      @clock.set_alarm("min_time_reached", @min_time_limit) unless @min_time_limit.nil?
-      @clock.set_alarm_emit("max_time_reached", @max_time_limit) unless @max_time_limit.nil?
-      @clock.start 
+      Timer.single_shot(@min_time_limit) { @allow_skip = true }  unless @min_time_limit.nil?
+      Timer.single_shot(@max_time_limit) { emit :max_time_reached }  unless @max_time_limit.nil?
+
     end
     
     def skip
@@ -67,14 +65,6 @@ require 'alarmclock'
     
     def seconds
     	@clock.running_time
-    end
-    
-    def min_time_reached 
-      @allow_skip = true  
-    end
-    
-    def max_time_reached
-    	emit max_time_reached
     end
   end
 end

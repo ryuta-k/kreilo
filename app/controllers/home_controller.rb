@@ -29,13 +29,14 @@ def new_game
       raise "Something is going wrong with the assignments of players"
     end
   end
+#  redirect_to :controller => 'game', :action => 'wait_for_players' and return
   if (i == 0)
     puts "fresh game"
   end
-
+  puts "about to redirect to game"
 #  redirect_to :controller => 'game', :action => 'wait_for_players'#, :id => game.id
-  redirect_to :controller => 'game', :action => 'show'#, :id => game.id
-
+  redirect_to :controller => 'game', :action => 'wait_for_players'
+  puts "nooooooooo "
 end
 
 end

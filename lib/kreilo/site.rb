@@ -19,6 +19,11 @@ require 'logger'
 
 $LOAD_PATH.unshift( File.dirname(__FILE__) )
 
+require 'signaling'
+class Object
+  include Kreilo::Signaling
+end
+
 module Kreilo
 
 require 'globals'

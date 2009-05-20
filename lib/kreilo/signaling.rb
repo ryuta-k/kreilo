@@ -17,7 +17,13 @@ module Signaling
     @connections[signal] = [] unless @connections[signal]
     @connections[signal].push [recipient,slot,args]
   end
-    
+
+  def __connect__(signal, code)
+    @connections = Hash.new unless @connections
+    @connections[signal] = [] unless @connections[signal]
+    @connections[signal].push code 
+  end
+
   def __disconnect(signal,recipient,slot)
     return unless @connections
     return unless @connections[signal]
@@ -36,11 +42,17 @@ module Signaling
   
   # emit :signal name => call associated method with args or default value
   def emit(name,*args)
+    puts "emiting signal " + name.to_s
     return if !@connections
     connected_slots = @connections[name]
     return if !connected_slots
+    puts "some connected slot"
     connected_slots.each do |slot|
-      slot[0].method(slot[1]).call(*(slot[2]+args))
+      if slot.size > 1
+        slot[0].method(slot[1]).call(*(slot[2]+args))
+      else
+        slot[0].call 
+      end
     end
   end
   
@@ -69,7 +81,12 @@ module SigSlot
   end  
   def SigSlot.disconnect(sender,signal,recipient)
     sender.__disconnect(signal,recipient)
-  end    
+  end   
+  def SigSlot.when (method, &block)
+    oname, mname = method.split '.'
+    oname.__connect__(mname, block)
+  end
+
 end
 
 #include Slotty

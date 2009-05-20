@@ -1,13 +1,20 @@
+require 'signaling'
 class GameController < ApplicationController
+#  include Signaling
 
   def show
-    SigSlot.connect(current_game,:max_time_reached,self,:on_game_finished)	
+    logger.debug "The game should have been"
+    raise "aaaaaaaa"
+    Kreilo::SigSlot.connect(current_game,:max_time_reached,self,:on_game_finished)	
     current_game.run
     puts "The game should have been shown"
   end
   
   def wait_for_players
-    puts "2222222s2222222222222222222"
+    raise "aaaa"
+    logger.debug "2222222s2222222222222222222"
+
+    render :partial => 'waiting_for_players', :layout => false, :locals => { :game => current_game }
     if current_game.runnable?
       redirect_to :action => "show"
     else
