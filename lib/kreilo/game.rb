@@ -25,7 +25,7 @@ require 'configuration'
 require 'data_source'
 require 'timer'
 require 'turnmanager'
-require 'signaling'
+require 'base'
 require 'enumeration'
 
 =begin
@@ -33,18 +33,19 @@ Create game
 Add players
 Run game
 =end
-class Game
+class Game < KObject
   attr_reader :logger, :state, :type, :players
   attr_accessor :id  
-
+  signals :max_time_reached, :state_changed 
+  slots :on_players_max_wait_reached
   #FIXME: this include should be global! All classes depending on this. See signaling.rb
 #  include Signaling
 
 
-  def initialize (game_name)
+  def initialize (game_name, parent = nil)
     @state = GameState::Waiting_players
     @type = game_name
-
+    super parent
     filename = File.join($Config_prefix, game_name + ".yml")
     begin
       Configuration.parse filename do  |doc, doc_number|
@@ -60,15 +61,18 @@ class Game
           @min_time_limit, @max_time_limit = Configuration.read_limits(game, "time_limit")
 
           #if max_time_limit is nil, this will never fire
-          @timer = Timer.new.single_shot(@max_time_limit ) {puts "game finitto";  emit :max_time_reached} 
-
-          SigSlot.connect(@players,:max_wait_reached, self, :on_players_max_wait_reached ) 
+          @timer = Timer.new
 
           @steps = StepManager.new
 
           @turn = TurnManager.new doc
 
           @players = PlayerManager.new doc['player']
+
+          @timer.connect( SIGNAL :timeout ) {puts "game finitto"; setState GameState::Dead; emit :max_time_reached }
+
+          konnect(@players,:max_wait_reached, self, :on_players_max_wait_reached ) 
+
 
         else
           @steps.load doc
@@ -94,7 +98,7 @@ class Game
   def run 
     if runnable?
       setState GameState::Running
-      @timer.start 
+      @timer.start @max_time_limit if @max_time_limit
       return self
     else
       return nil
@@ -187,7 +191,6 @@ private
   def setState (state)
     @state = state
     puts "state changes"
-    emit :state_changed, state
     emit :state_changed
   end
 

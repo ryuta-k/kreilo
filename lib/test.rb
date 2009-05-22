@@ -1,21 +1,27 @@
 
 require 'rubygems'
 require 'kreilo/site'
-require 'kreilo/signaling'
+require 'kreilo/base'
 require 'kreilo/data_source'
 
-class TestKreilo
-  def initialize
+class TestKreilo < Kreilo::KObject
+
+  slots :on_wait_finished
+
+  def initialize (parent = nil)
+    super
     site = Kreilo::Site.new
     games = []
+    timer = Timer.new
+    timer.connect (SIGNAL :timeout) { puts "yeppppaaaa"}
+    timer.start(1)
+    site.run
+
     #    site.types_available.each do |game_n|
     @game = site.new_game_of_type "game1"
     #      puts "new game of type #{game_n}"
-    if @game.nil?
-      raise "nill gamee"
-    end
 
-    Kreilo::SigSlot.connect(@game,:state_changed, self,:on_wait_finished)
+    konnect(@game,:state_changed, self,:on_wait_finished)
     @game.add_player "jugador1"
 
     while not @game.runnable?
@@ -32,20 +38,19 @@ class TestKreilo
     puts @game.running?
 
     while @game.running? do
-      puts game.id.to_s + " with running time: " + game.running_time.to_s
+      puts @game.id.to_s + " with running time: " + @game.running_time.to_s
       sleep 1
     end
   end
   #  end
 
-  def on_wait_finished (state)
+  def on_wait_finished 
     puts "waiting for players have finished"
     if @game.runnable?
       "runable"
     else
       "no runablE!"
     end
-
   end
 
 end

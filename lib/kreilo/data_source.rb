@@ -18,11 +18,11 @@
 #libraries
 require "rubygems"
 require "activerecord"
-require 'actiontimer'
 
 module Kreilo
 
 require 'timer'
+require 'base'
 
   class InputData < ActiveRecord::Base
     has_many :annotations
@@ -99,15 +99,16 @@ class InputManager
 end
 
 #Manages Players and Groups
-class PlayerManager
-
-  include Signaling
+class PlayerManager < KObject
 
   attr_reader :groups_number
   attr_reader :players_number
 
-  def initialize (doc)
+  signals :max_wait_reached
 
+
+  def initialize (doc, parent= nil)
+    super nil
     @groups_number = doc["groups"]
     @players_number = doc["number"] 
     @max_wait = doc["max_wait"]
@@ -116,8 +117,8 @@ class PlayerManager
       @max_wait = 10
     end
    puts "inititiaial"
-    @wait_clock = Timer.new 
-    @wait_clock.single_shot(@max_wait) { puts "aaaaaaaaaaaaa"; emit :max_wait_reached} 
+    @wait_clock = Timer.new
+    @wait_clock.connect(SIGNAL :timeout) { puts "aaaaaaaaaaaaa"; emit :max_wait_reached} 
     #players on this game 
     @players = Array.new
     #    @players_number.to_i.times { @players.insert Player.new.connect_to_input InputManager.get_new_input}
@@ -139,7 +140,7 @@ class PlayerManager
     puts "aaaaaaaalll"
     @wait_clock.stop
     @players.push Player.new(player)
-    @wait_clock.start
+    @wait_clock.start @max_wait
   end
 
   def number

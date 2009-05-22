@@ -19,17 +19,21 @@ require 'logger'
 
 $LOAD_PATH.unshift( File.dirname(__FILE__) )
 
-require 'signaling'
-class Object
-  include Kreilo::Signaling
-end
+$VERBOSE = true; 
+
+#require 'signaling'
+#class Object
+#  include Kreilo::Signaling
+#end
+
 
 module Kreilo
 
 require 'globals'
 require 'configuration'
 require 'game'
-require 'signaling'
+#require 'signaling'
+require 'base'
 
 =begin
 Outer class of the framework.
@@ -53,15 +57,17 @@ Starts everything
 =end
 
 
-class Site
-  
-  def initialize
+class Site < KObject
+  slots :on_game_finished
+
+  def initialize (parent =nil)
+    super
     puts "new site has been created, congratulations"
     @game_types = Array.new
     @games = Array.new
     $logger = Logger.new(STDERR)
     $logger.level = Logger::DEBUG #overwritten by the config 
-		
+
     conf_file = $Site_configuration_file #File.join( $Working_directory, $Site_configuration_file)
     Configuration.parse conf_file do |doc, a| 
       if doc["debug"] == true
@@ -73,10 +79,15 @@ class Site
         game_name.strip!
         @game_types << game_name
       end
-			
+      		
     end	  	
   end
-	
+
+  def run
+    app = Qt::CoreApplication.new(ARGV)
+    app.exec
+  end
+
   def new_game_of_type(game_type)
     #clean already finished games
     clean_dead_games
@@ -85,19 +96,19 @@ class Site
     if not @game_types.include? game_type
       raise "the game type requested (#{game_type}) can not be found in this site, game available:  " + games_available.join("  ")
     end
-    game = @games.detect {|g| g.state == Kreilo::GameState::Waiting_players }
+    game = @games.detect {|g| g.state == Kreilo::GameState::Waiting_players and g.type == game_type}
     if not game.nil?
-      return game #we are done
+      return game #we are done, return a game waiting for players.
     end
+
     game = Kreilo::Game.new game_type
     if game.nil?
-      puts "Null game returned"
-      return nil
+      raise "Null game returned, we can not create games of type #{game_type}"
     else
       @games << game
     end
     game.id = @games.rindex(game)
-    SigSlot.connect(game,:max_time_reached,self,:on_game_finished)			  	
+    konnect(game,:max_time_reached,self,:on_game_finished)			  	
     return game 
   end
 	
@@ -134,40 +145,6 @@ end
 
 end
 
-
-=begin
-
-framework = Kreilo::Site.new
-game_id=framework.start_game_type("game1")
-while framework.games[game_id].alive?
-  puts framework.games[game_id].running_time 
-  sleep(0.1)
-end
-game_id=framework.start_game_type("game1")
-while framework.games[game_id].alive?
-  puts framework.games[game_id].running_time 
-  sleep(0.1)
-end
-game_id=framework.start_game_type("game1")
-while framework.games[game_id].alive?
-  puts framework.games[game_id].running_time 
-  sleep(0.1)
-end
-
-
-
-#test
-input = InputData.new
-input.times_processed = 1
-input.save!
-a=input.annotations.create
-a.offset=0
-a.label_name = "label"
-a.label="test"
-a.times_selected=1
-a.save!	
-
-=end
 
 
 

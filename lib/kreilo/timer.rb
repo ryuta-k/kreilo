@@ -15,50 +15,72 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'actiontimer'
+require 'base'
+class Eein < Kreilo::KObject 
+def initialize(parent =nil, single = true)
+end
+end
 
-module Kreilo
+#module Kreilo
 
 
 =begin
   Alarmclock is able to keep a set of alarms related to a particular clock
   If several clocks counting are needed, several AlarmClocks should be used.
 =end
-  class Timer 
-    attr_reader :counter
-    attr_reader :interval
+class Timer < Kreilo::KObject
+  attr_reader :counter
+  signals :timeout
+  slots :count, :internal_timeout
 
-    def initialize
-      @timer = ActionTimer::Timer.new
-      @count_timer = ActionTimer::Timer.new
-      @counter = 0
-      return self
-    end
+  def initialize ()
+    super 
+    @timer = Qt::Timer.new self 
+    @timer.setSingleShot true # true by default 
+    @count_timer = Qt::Timer.new self 
+    @counter = 0
+    konnect(@timer, :timeout, self, :internal_timeout )
+    konnect(@count_timer, :timeout, self, :count )
+    return self
+  end
 
-    def active?
-      @timer.running?
-    end
+  def active?
+#    @timer.isActive
+  end
 
-    def counter
-      @counter.round
-    end
 
+  def set_single_shot (single)
+#    @timer.setSingleShot single
+  end
+
+  def start (time)
+    stop
+    puts "starting new count #{time}"
+    @count_timer.start 100
+    @timer.start time
+  end
+
+  def stop
+    @timer.stop
+    @count_timer.stop
+    @counter = 0
+    puts "counter to 0"
+    #      @working_thread.kill 
+  end
+
+
+=begin
     def set_action  (time=nil, single=true, &action)
-      @interval = time
-      @emit_once = single 
       @action = action
-      ab= Proc.new { puts "xaaaaaa"}
+      puts "our time is  " + time.to_s
+      @count_timer.start 100 
+      @timer.start time
+      @timer.connect (SIGNAL :timeout) 
+
       @timer.add(time,single, &ab)
-#      @timer.add(1,single, &ab)
-      @count_timer.add(0.1) do 
-        @counter += 0.1
-        puts "count " + @counter.to_s
-        if @counter >=@interval
-          @count_timer.stop
-        end
-      end
-      running = true
-      return self
+      @timer.add(time,single, &action)
+      @timer.add(time,single) {@count_timer.stop}
+
     end
 
     def single_shot (time, &action)
@@ -67,127 +89,33 @@ module Kreilo
       return self 
     end
 
-    def multiple_shot (time, &action)
-      set_action(time, false, &action)
-      return self
-    end
-
-    def start
-      @timer.start
-      @count_timer.start
-    end
-    #FIXME: for multishot clocks we have to kill the thread
-    #as we work with a thread, we can use true instead of @running ...
-    def stop
-      @timer.stop
-      @count_timer.stop
-      @counter = 0
-      puts "counter to 0"
-#      @working_thread.kill 
-    end
-
-
-
-=begin
-
-
-
-    def pause
-      @running = false
-    end
-    def resume
-      @running = true
-    end
-
-
-
-    def single_shot (time, owner, method_name, *parameters)
-      @alarm = Alarm.new(time, owner, method_name, parameters)
-      @alarm.emit_once = true
-      repeat_every yield
-    end
-
-    def multiple_shot (time, owner, method_name, *parameters)
-      @alarm = Alarm.new(time, owner, method_name, parameters)
-      repeat_every yield
-    end
-
-    def repeat_every(seconds)
-      @running = true
-      while @running do
-        time_spent = time_block { yield } # To handle -ve sleep interaval
-        sleep(seconds - time_spent) if time_spent < seconds
-        @running_time += seconds
-        puts "running time #{@running_time}"
-        if @running_time >= @alarm.time 
-          @alarm.owner.send @alarm.name.to_sym, @alarm.parameters
-          if @alarm.emit_once
-            @running = false
-          end
-        end
-      end
-    end
-
-
-    def repeater(seconds)
-      @running = true
-      @counter = 0
-      while @running do
-        time_spent = time_block { yield } # To handle -ve sleep interaval
-        sleep(seconds - time_spent) if time_spent < seconds
-        @counter += seconds
-        puts "clock counter #{@counter}"
-        if @counter >= @interval
-          @action.call 
-          if @emit_once
-            @running = false
-          else
-            @counter = 0
-          end
-        end
-      end
-    end
-
-
-    def repeat_every (seconds)  
-      @working_thread = Thread.new {
-      if block_given?
-        repeater (seconds){ yield }
-      else
-        repeater seconds
-      end
-      }
-    end
-
-
-
-
-
-    def time_block
-      start_time = Time.now
-      Thread.new { yield }
-      Time.now - start_time
-    end
-
-
-
-    class Alarm
-      attr_accessor :fired, :emit_once
-      attr_reader :name, :time, :caller
-      def initialize (time, owner, name, *parameters)
-        @caller = owner
-        @name = name
-        @time = time
-        @fired = false
-        @emit_signal = false
-      end
-    end
-
-
+ #   def multiple_shot (time, &action)
+ #     set_action(time, false, &action)
+ #     return self
+ #   end
 =end
+  #FIXME: for multishot clocks we have to kill the thread
+  #as we work with a thread, we can use true instead of @running ...
+  private
+
+  #fired to keep the count
+  def count
+    @counter += 0.1
+    puts "count " + @counter.to_s
+    #        if @counter >=@interval
+    #          @count_timer.stop
+    #        end
+
+  end
+  #fired to stop the count and emit signal
+
+  def internal_timeout
+    @count_timer.stop
+    emit :timeout
   end
 
-
 end
+
+#end
 
 
