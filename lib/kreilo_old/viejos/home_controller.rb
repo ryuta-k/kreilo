@@ -14,7 +14,6 @@ end
 
 def new_game
 
-=begin
   game = $site.new_game_of_type(params[:id])
   if game.id.nil?
     raise "Game of type #{params[:id]} has been requested but the engine doesn't recognize it"
@@ -39,6 +38,5 @@ def new_game
   redirect_to :controller => 'game', :action => 'wait_for_players'
   puts "nooooooooo "
 end
-=end
-end
+
 end

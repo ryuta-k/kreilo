@@ -19,7 +19,7 @@ require 'logger'
 
 $LOAD_PATH.unshift( File.dirname(__FILE__) )
 
-$VERBOSE = true; 
+#$VERBOSE = true; 
 
 #require 'signaling'
 #class Object
@@ -32,7 +32,6 @@ module Kreilo
 require 'globals'
 require 'configuration'
 require 'game'
-#require 'signaling'
 require 'base'
 
 =begin
@@ -80,12 +79,13 @@ class Site < KObject
         @game_types << game_name
       end
       		
-    end	  	
+    end	  
+    return self
   end
 
   def run
     app = Qt::CoreApplication.new(ARGV)
-    app.exec
+    Thread.new { app.exec }
   end
 
   def new_game_of_type(game_type)

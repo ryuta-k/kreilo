@@ -15,58 +15,53 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'base'
-class Eein < Kreilo::KObject 
-def initialize(parent =nil, single = true)
-end
-end
+module Kreilo
 
-#module Kreilo
-
+  require 'base'
 
 =begin
   Alarmclock is able to keep a set of alarms related to a particular clock
   If several clocks counting are needed, several AlarmClocks should be used.
 =end
-class Timer < Kreilo::KObject
-  attr_reader :counter
-  signals :timeout
-  slots :count, :internal_timeout
+  class Timer < Kreilo::KObject
+    attr_reader :counter
+    signals :timeout
+    slots :count, :internal_timeout
 
-  def initialize ()
-    super 
-    @timer = Qt::Timer.new self 
-    @timer.setSingleShot true # true by default 
-    @count_timer = Qt::Timer.new self 
-    @counter = 0
-    konnect(@timer, :timeout, self, :internal_timeout )
-    konnect(@count_timer, :timeout, self, :count )
-    return self
-  end
+    def initialize ()
+      super 
+      @timer = Qt::Timer.new self 
+      @timer.setSingleShot true # true by default 
+      @count_timer = Qt::Timer.new self 
+      @counter = 0
+      konnect(@timer, :timeout, self, :internal_timeout )
+      konnect(@count_timer, :timeout, self, :count )
+      return self
+    end
 
-  def active?
-#    @timer.isActive
-  end
+    def active?
+      #    @timer.isActive
+    end
 
 
-  def set_single_shot (single)
-#    @timer.setSingleShot single
-  end
+    def set_single_shot (single)
+      #    @timer.setSingleShot single
+    end
 
-  def start (time)
-    stop
-    puts "starting new count #{time}"
-    @count_timer.start 100
-    @timer.start time
-  end
+    def start (time)
+      stop
+      puts "starting new count #{time}"
+      @count_timer.start 100
+      @timer.start time
+    end
 
-  def stop
-    @timer.stop
-    @count_timer.stop
-    @counter = 0
-    puts "counter to 0"
-    #      @working_thread.kill 
-  end
+    def stop
+      @timer.stop
+      @count_timer.stop
+      @counter = 0
+      puts "counter to 0"
+      #      @working_thread.kill 
+    end
 
 
 =begin
@@ -94,28 +89,28 @@ class Timer < Kreilo::KObject
  #     return self
  #   end
 =end
-  #FIXME: for multishot clocks we have to kill the thread
-  #as we work with a thread, we can use true instead of @running ...
-  private
+    #FIXME: for multishot clocks we have to kill the thread
+    #as we work with a thread, we can use true instead of @running ...
+    private
 
-  #fired to keep the count
-  def count
-    @counter += 0.1
-    puts "count " + @counter.to_s
-    #        if @counter >=@interval
-    #          @count_timer.stop
-    #        end
+    #fired to keep the count
+    def count
+      @counter += 0.1
+      puts "count " + @counter.to_s
+      #        if @counter >=@interval
+      #          @count_timer.stop
+      #        end
 
-  end
-  #fired to stop the count and emit signal
+    end
+    #fired to stop the count and emit signal
 
-  def internal_timeout
-    @count_timer.stop
-    emit :timeout
+    def internal_timeout
+      @count_timer.stop
+      emit :timeout
+    end
+
   end
 
 end
-
-#end
 
 

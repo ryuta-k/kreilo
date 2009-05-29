@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'kreilo/site'
 require 'kreilo/base'
+require 'kreilo/timer'
 require 'kreilo/data_source'
 
 class TestKreilo < Kreilo::KObject
@@ -12,10 +13,10 @@ class TestKreilo < Kreilo::KObject
     super
     site = Kreilo::Site.new
     games = []
-    timer = Timer.new
+    timer = Kreilo::Timer.new
     timer.connect (SIGNAL :timeout) { puts "yeppppaaaa"}
-    timer.start(1)
-    site.run
+#    timer.start(1)
+Thread.new{    site.run}
 
     #    site.types_available.each do |game_n|
     @game = site.new_game_of_type "game1"
