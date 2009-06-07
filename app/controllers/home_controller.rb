@@ -1,6 +1,8 @@
 #TODO: site should be created only once
 class HomeController < ApplicationController
 def index
+  @games = Game.find(:all)
+
 #  @site ||= Kreilo::Site.new
    
   #game_id=@@framework.start_game_type("game1")

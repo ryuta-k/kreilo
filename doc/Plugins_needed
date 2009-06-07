@@ -1,2 +1,21 @@
 Authlogic Authentification, users, usersessions
-share_this : share this site button
+share_this : 
+share this site button
+annotate: gem install 
+  run /var/lib/gems/1.8/bin/annotate to create comments on the top of the Models with their database schema
+act as a state machine:
+ sudo gem sources -a http://gems.github.com # (you only need to do this once)
+ sudo gem install rubyist-aasm
+
+haml: views using this stuff
+sudo gem install --no-ri haml
+haml --rails path/to/app
+
+
+
+
+lightbox: not used. 
+The box that appears as a modal window showing images.
+fleximage: not used http://wiki.github.com/Squeegy/fleximage/overview
+Uploading and customized rendering of images.
+

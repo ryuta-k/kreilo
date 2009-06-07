@@ -1,0 +1,18 @@
+<% content_for("page_scripts") do %>
+  window.onload = countdown;  
+<% end %>
+
+<h1> eeeeein </h1>
+
+<%= kreilo_timer @game %> 
+
+<div id ="button" > <%= render :partial => "instructions" %> </div>
+<div id ="button" > <%= link_to "play", :controller => "games", :action => "wait", :method => :get %> </div>
+
+<!--
+/instructions in this partial, it can be an static page, image, etc
+.button= render :partial => "instructions"
+
+.button= link_to "Play", :controller => "games", :action => "wait", :method => :get  
+-->
+
