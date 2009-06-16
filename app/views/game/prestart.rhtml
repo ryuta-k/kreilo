@@ -4,9 +4,9 @@
 
 <h1> eeeeein </h1>
 
-<%= kreilo_timer @game %> 
+<%=kreilo_timer @game.timeout, 'finish', @game.id%> 
 
-<div id ="button" > <%= render :partial => "instructions" %> </div>
+<div > <%= render :partial => "instructions" %> </div>
 <div id ="button" > <%= link_to "play", :controller => "games", :action => "wait", :method => :get %> </div>
 
 <!--

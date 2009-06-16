@@ -1,5 +1,5 @@
 
-function countdown()
+function timer()
 {
   var countdownDiv = document.getElementById('timer');
 

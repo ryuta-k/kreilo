@@ -61,3 +61,9 @@ text-align: right;
   text-align: left;
   font-size: 16px;
 }
+
+
+#button { border: none; background: url('/images/white-1.png') no-repeat top left; padding: 4px 26px; }
+#button:active { border: none; background: url('/images/white-2.png') no-repeat top left; padding: 4px 26px; }
+
+
