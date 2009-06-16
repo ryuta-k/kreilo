@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090530201512) do
+ActiveRecord::Schema.define(:version => 20090616183546) do
+
+  create_table "datas", :force => true do |t|
+    t.binary   "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "games", :force => true do |t|
     t.datetime "created_at"
@@ -18,6 +24,14 @@ ActiveRecord::Schema.define(:version => 20090530201512) do
     t.integer  "timeout"
     t.integer  "player_num"
     t.integer  "player_wait_new"
+  end
+
+  create_table "labels", :force => true do |t|
+    t.integer  "data_id"
+    t.string   "label"
+    t.integer  "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sessions", :force => true do |t|
