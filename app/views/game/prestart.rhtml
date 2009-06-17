@@ -2,12 +2,10 @@
   window.onload = countdown;  
 <% end %>
 
-<h1> eeeeein </h1>
-
-<%=kreilo_timer @game.timeout, 'finish', @game.id%> 
 
 <div > <%= render :partial => "instructions" %> </div>
-<div id ="button" > <%= link_to "play", :controller => "games", :action => "wait", :method => :get %> </div>
+<div id ="button" > <%= link_to "play", :controller => "game", :action => "wait", :method => :get, :id => @game.id %> </div>
+
 
 <!--
 /instructions in this partial, it can be an static page, image, etc

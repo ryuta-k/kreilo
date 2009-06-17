@@ -67,3 +67,49 @@ text-align: right;
 #button:active { border: none; background: url('/images/white-2.png') no-repeat top left; padding: 4px 26px; }
 
 
+#timer {
+  position: absolute; /* 絶対位置で指定(親ボックス基準) */
+  top: 50px;         /* 上から100px */
+  left: 800px;         /* 左から200px */}
+
+#data {  border-style: solid;           /* 枠の形 */
+  border-width: 2px;             /* ４方向の枠 */  
+  width: 400px;
+  height: 50px;
+  background-color: #F5F5F5;
+  position: relative; /* 絶対位>置で指定(親ボックス基準) */
+  top: 50px;          /* 上から100px */
+  left: 300px;         /* 左から200px */
+}
+#pass {
+  background: url("/images/interact.png");
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 300px;
+  position: relative; /* 絶対位置で指定(親ボックス基準) */
+  top: -10px;          /* 上から100px */
+  left: 720px;        /* 左
+から400px */
+}
+
+#pos {
+  background: url("/images/up.png");
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 300px;
+  position: relative; /* 絶対位置で指定(親ボックス基準) */
+  top: -100px;       /* 上から200px */
+  left: 300px;      /* 左から300px */ 
+}
+
+#neg {
+   background: url("/images/down.png");
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 300px;
+  position: relative; /* 絶対位置で指定(親ボックス基準) */
+  top: -400px;       /* 上から200px */
+  left: 600px;      /* 左から400px */
+}
+
+

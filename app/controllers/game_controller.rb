@@ -11,7 +11,17 @@ def wait
 
 end
 
+def button
 
+  if (params[:button] == 'pos') 
+#    Data.find()
+#    render :layout => false 
+#    Data.rand
+  end
+
+
+   render :text => "heeeeellooooo", :layout => false 
+end
 
 def finish
 render
