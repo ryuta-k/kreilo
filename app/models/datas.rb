@@ -1,5 +1,6 @@
-class Data < ActiveRecord::Base
+class Datas < ActiveRecord::Base
 has_many :Labels
+set_table_name "datas"
 
   def get_random
  
