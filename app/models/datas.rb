@@ -2,13 +2,13 @@ class Datas < ActiveRecord::Base
 has_many :Labels
 set_table_name "datas"
 
-  def get_random
- 
-    Data.find_by_id rand(Data.count) + 1  
-end
-  def Data.rand
-    Data.find_by_id rand(Data.count) + 1  
+   def Datas.random
+    d = Datas.find_by_id rand(Datas.count) + 1 
+    d.data
   end
 
+ def add (new_label)
+   
+ end 
 
 end

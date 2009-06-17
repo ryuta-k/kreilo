@@ -13,14 +13,19 @@ end
 
 def button
 
-  if (params[:button] == 'pos') 
+#  if (params[:button] == 'pos') 
+    d = Datas.find_by_data(params[:datas])
+    if not d.nil?
+      d.add (params[:button])
+    end
 #    Data.find()
 #    render :layout => false 
 #    Data.rand
-  end
+#  end
 
-
-   render :text => "heeeeellooooo", :layout => false 
+  
+   @data = Datas.random
+   render :text => @data , :layout => false 
 end
 
 def finish
@@ -33,6 +38,7 @@ def set_titles
   @page_title = @game.name
   @header_header = @game.name
   @header_subheader = "just testing"
+  @controller_name = "game"
 end
 
 end

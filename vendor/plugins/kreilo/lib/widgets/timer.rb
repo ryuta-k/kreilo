@@ -16,16 +16,16 @@ module Kreilo
       html = "<div id='data' >testetee</div>"
     end
 
-    def kreilo_button (controller, method, id) 
+    def kreilo_button (id) 
 #TODO: data should be a parameter
      html = "<div id='#{id}' ></div>"
      html += javascript_tag "
        $$('#" + id +"').each(function(button){
         button.observe('click', function(){
-          new Ajax.Updater('data', '/game/button/1' ,{
+          new Ajax.Updater('data', '/#{@controller_name}/button/#{@game.id}' ,{
                                  method: 'get',
-                                 parameters: { button: 'pos' 
-                                               
+                                 parameters: { button: '#{id}', 
+                                               datas: '#{@data}'           
                                                         }
                                    });
          });
