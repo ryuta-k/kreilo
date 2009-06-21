@@ -1,7 +1,7 @@
 namespace :bootstrap do
 desc "add some data"
 task :default_data => :environment do
-  File.open(Dir.pwd + "/forgame2.t", "r") do |infile|
+  File.open(File.dirname(__FILE__) + "/forgame2.t", "r") do |infile|
     while (line = infile.gets)
       Datas.create(:data => line.gsub(/\s/, ''))
 
