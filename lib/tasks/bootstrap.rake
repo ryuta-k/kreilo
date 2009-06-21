@@ -9,8 +9,28 @@ task :default_data => :environment do
     end
   end
 
-  end
+end
+desc "add a couple of games"
+task :games => :environment do
+  g = Game.new
+  g.name = "game_test1"
+  g.timeout = 10
+  g.player_num = 2
+  g.player_wait_new = 20
+  g.save
+
+  g = Game.new
+  g.name = "game_test2"
+  g.timeout = 60
+  g.player_num = 1
+  g.save
+
+
+end
+
+
+
   desc "Run all bootstrapping tasks"
-  task :all => [:default_data]
-  end
+  task :all => [:default_data, :games]
+end
 
