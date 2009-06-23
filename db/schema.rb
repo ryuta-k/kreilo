@@ -9,9 +9,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090616183546) do
+ActiveRecord::Schema.define(:version => 20090622230043) do
 
-  create_table "datas", :force => true do |t|
+  create_table "dataItem", :force => true do |t|
     t.binary   "data"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20090616183546) do
   end
 
   create_table "labels", :force => true do |t|
-    t.integer  "data_id"
+    t.integer  "dataItem_id"
     t.string   "label"
     t.integer  "count"
     t.datetime "created_at"

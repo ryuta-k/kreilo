@@ -14,7 +14,7 @@ end
 def button
 
 #  if (params[:button] == 'pos') 
-    d = Datas.find_by_data(params[:datas])
+    d = DataItem.find_by_data(params[:datas])
     if not d.nil?
       d.add (params[:button])
     end
@@ -24,7 +24,7 @@ def button
 #  end
 
   
-   @data = Datas.random
+   @data = DataItem.random
    render :text => @data , :layout => false 
 end
 

@@ -10,22 +10,24 @@ module Kreilo
       html
     end
 
-    def kreilo_data
+    def kreilo_data (data_id)
 #      data = Data.rand
 #      html = "<div id='data' >#{data}</div>"
-      html = "<div id='data' >testetee</div>"
+      html = "<div id='#{data_id}' >TESTING</div>"
     end
 
-    def kreilo_button (id) 
-#TODO: data should be a parameter
-     html = "<div id='#{id}' ></div>"
+    # a button  with id button_id that acts over
+    # data contained in the element with id data_id
+    def kreilo_button (button_id, data_id) 
+#TODO: clean game.id from there 
+     html = "<div id='#{button_id}' class='button' ></div>"
      html += javascript_tag "
-       $$('#" + id +"').each(function(button){
+       $$('#" + button_id +"').each(function(button){
         button.observe('click', function(){
-          new Ajax.Updater('data', '/#{@controller_name}/button/#{@game.id}' ,{
+          new Ajax.Updater('#{data_id}', '/#{@controller_name}/button/#{@game.id}' ,{
                                  method: 'get',
-                                 parameters: { button: '#{id}', 
-                                               datas: '#{@data}'           
+                                 parameters: { button: '#{button_id}', 
+                                               datas: document.getElementById('#{data_id}').nodeValue           
                                                         }
                                    });
          });
