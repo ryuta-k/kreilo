@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090622230043) do
+ActiveRecord::Schema.define(:version => 20090623200422) do
 
   create_table "dataItem", :force => true do |t|
     t.binary   "data"
@@ -44,6 +44,13 @@ ActiveRecord::Schema.define(:version => 20090622230043) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "settings", :force => true do |t|
+    t.string   "var",        :null => false
+    t.text     "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -62,5 +69,10 @@ ActiveRecord::Schema.define(:version => 20090622230043) do
   add_index "users", ["last_request_at"], :name => "index_users_on_last_request_at"
   add_index "users", ["login"], :name => "index_users_on_login"
   add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
+
+  create_table "waiting_players", :force => true do |t|
+    t.integer "game_id"
+    t.integer "counter"
+  end
 
 end

@@ -1,6 +1,8 @@
 module Kreilo 
   module Timer
-
+#
+# For views
+#
     def kreilo_timer (timeout, onFinish, id)
       html = "<div id='timer'>#{timeout}</div>"
       html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
@@ -36,8 +38,11 @@ module Kreilo
       "
       #html += js_at_load("test()")
       html     
-
     end
+
+
+
+
 
 
 

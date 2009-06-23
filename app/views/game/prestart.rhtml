@@ -1,10 +1,7 @@
-<% content_for("page_scripts") do %>
-  window.onload = countdown;  
-<% end %>
 
 
 <div > <%= render :partial => "instructions" %> </div>
-<div id ="button" > <%= link_to "play", :controller => "game", :action => "wait", :method => :get, :id => @game.id %> </div>
+<div class ="button" > <%= link_to "play", :controller => "game", :action => "wait", :method => :get, :id => @game.id %> </div>
 
 
 <!--
