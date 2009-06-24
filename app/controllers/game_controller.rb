@@ -18,6 +18,7 @@ end
 
 def waiting_player
   wait = WaitingPlayer.new
+ 
   if (wait.enough_players(@game))
     redirect_to :play, @game
   end
@@ -30,7 +31,6 @@ def play (game)
  #display something spinning with timeout of 3 seconds
  #calling start should wait till all the players called this
 # RunningGame.start(game)
- 
 
  render
 end
@@ -51,6 +51,7 @@ end
 
 def finish
   wait = WaitingPlayer.new
+ raise RAILS_GEM_VERSION
   if (wait.enough_players(@game))
     redirect play @game
   end
