@@ -31,7 +31,7 @@ function timer()
 
 function kreilo_test()
 {
-  alert("aaaaaaaaa");
+  alert("aaaabbbaaaieroweroa");
 }
 
 
