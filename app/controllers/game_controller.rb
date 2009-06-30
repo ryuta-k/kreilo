@@ -36,18 +36,6 @@ def play (game)
 end
 
 
-def button
-
-#  if (params[:button] == 'pos') 
-    d = DataItem.find_by_data(params[:datas])
-    if not d.nil?
-      d.add params[:button]
-    end
-  
-   @data = DataItem.random
-   render :text => @data , :layout => false 
-end
-
 
 def finish
   wait = WaitingPlayer.new
