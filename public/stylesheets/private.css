@@ -1,115 +1,1 @@
-/*  Share this plugin*/
-.icn_share_facebook{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px -16px;}
-.icn_share_promoted_facebook, a:hover .icn_share_facebook{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px 0px;}
-.icn_share_delicious{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px -16px;}
-.icn_share_promoted_delicious, a:hover .icn_share_delicious{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px 0px;}
-.icn_share_digg{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -16px;}
-.icn_share_promoted_digg, a:hover .icn_share_digg{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -0px;}
-.icn_share_myspace{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px -16px;}
-.icn_share_promoted_myspace, a:hover .icn_share_myspace{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px 0px;}
-.icn_share_stumbleupon{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px -16px;}
-.icn_share_promoted_stumbleupon, a:hover .icn_share_stumbleupon{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px 0px;}
-
-body {
-  width: 90%;
-  margin: 10px auto;
-  background-color: #fff;
-  color: #333;
-  border: 1px solid gray;
-  line-height: 130%;
-}
-
-#header {
-padding: .5em ;
-background-color: #ddd;
-border-bottom: 1px solid gray;
-margin: 0px;
-}
-
-#header h1 {
-  font-size: 40px;
-}
-
-#header h2 {
-padding: 0px;
-font-size: 16px;
-text-align: right;
-}
-
-#title {
-  font-size: 24px;
-  padding: .5em ;
-}
-
-
-#login {
-  float: right; 
-  text-align: right;
-/*   padding: 70px 0 0 0; */
-}
-
-#tools {
-  float: right; 
-  text-align: right;
-/*   padding: 70px 0 0 0; */
-}
-
-
-
-#contents{
-
-  text-align: left;
-  font-size: 16px;
-}
-
-
-#button { border: none; background: url('/images/white-1.png') no-repeat top left; padding: 4px 26px; }
-#button:active { border: none; background: url('/images/white-2.png') no-repeat top left; padding: 4px 26px; }
-
-
-#timer {
-  position: absolute; /* 絶対位置で指定(親ボックス基準) */
-  top: 50px;         /* 上から100px */
-  left: 800px;         /* 左から200px */}
-
-#data {  border-style: solid;           /* 枠の形 */
-  border-width: 2px;             /* ４方向の枠 */  
-  width: 400px;
-  height: 50px;
-  background-color: #F5F5F5;
-  position: relative; /* 絶対位>置で指定(親ボックス基準) */
-  top: 50px;          /* 上から100px */
-  left: 300px;         /* 左から200px */
-}
-#pass {
-  background: url("/images/interact.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -10px;          /* 上から100px */
-  left: 720px;        /* 左
-から400px */
-}
-
-#pos {
-  background: url("/images/up.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -100px;       /* 上から200px */
-  left: 300px;      /* 左から300px */ 
-}
-
-#neg {
-   background: url("/images/down.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -400px;       /* 上から200px */
-  left: 600px;      /* 左から400px */
-}
-
-
+ ....loading....Firebug's log limit has been reached. %S entries not shown.		Preferences	 64 x 64Firebug's log limit has been reached. %S entries not shown.		Preferences	 body, td, a, p, .h {font-family:arial,sans-serif;}body {background:#B22222 url(http://img.joshinweb.jp/emall/img/sm/JSN_C00001/middle/50/51254/5051254235644.jpg) repeat-x scroll 0 -95px;color:#B22222;margin:3px 8px 2em;}img, table {border:0 none;}#sf {width:100%;}#frame {margin:auto 12px;width:800px;}#gbar {height:22px;padding-left:0;}.gbh, .gbd {border-top:1px solid #C9D7F1;font-size:1px;}.gbh {height:0;position:absolute;top:24px;width:100%;}#gbi, #gbs {background:#FFFFFF none repeat scroll 0 0;left:0;position:absolute;top:24px;visibility:hidden;z-index:1000;}#gbi {border-color:#C9D7F1 #3366CC #3366CC #A2BAE7;border-style:solid;border-width:1px;z-index:1001;}#guser {padding-bottom:7px !important;text-align:right;}#gbar, #guser {font-size:13px;padding-top:1px !important;}.gb1, .gb3 {height:22px;margin-right:0.5em;vertical-align:top;}#gbar {float:left;}.gb2 {display:block;padding:0.2em 0.5em;}a.gb1, a.gb2, a.gb3 {color:#0000CC !important;}.gb2, .gb3 {text-decoration:none;}a.gb2:hover {background:#3366CC none repeat scroll 0 0;color:#FFFFFF !important;}Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 Firebug's log limit has been reached. %S entries not shown.		Preferences	 body {background-color:#FFFFFF;color:#333333;}body, p, ol, ul, td {font-family:verdana,arial,helvetica,sans-serif;font-size:13px;line-height:18px;}pre {background-color:#EEEEEE;font-size:11px;padding:10px;}a {color:#000000;}a:visited {color:#666666;}a:hover {background-color:#000000;color:#FFFFFF;}.fieldWithErrors {background-color:red;display:table;padding:2px;}#errorExplanation {background-color:#F0F0F0;border:2px solid red;margin-bottom:20px;padding:7px 7px 12px;width:400px;}#errorExplanation h2 {background-color:#CC0000;color:#FFFFFF;font-size:12px;font-weight:bold;margin:-7px;padding:5px 5px 5px 15px;text-align:left;}#errorExplanation p {color:#333333;margin-bottom:0;padding:5px;}#errorExplanation ul li {font-size:12px;list-style-image:none;list-style-position:outside;list-style-type:square;}Firebug's log limit has been reached. %S entries not shown.		Preferences	 .icn_share_facebook {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px -16px;}.icn_share_promoted_facebook, a:hover .icn_share_facebook {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px 0;}.icn_share_delicious {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px -16px;}.icn_share_promoted_delicious, a:hover .icn_share_delicious {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px 0;}.icn_share_digg {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -16px;}.icn_share_promoted_digg, a:hover .icn_share_digg {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px 0;}.icn_share_myspace {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px -16px;}.icn_share_promoted_myspace, a:hover .icn_share_myspace {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px 0;}.icn_share_stumbleupon {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px -16px;}.icn_share_promoted_stumbleupon, a:hover .icn_share_stumbleupon {background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px 0;}body {background-color:#5F5F5F;border:1px solid black;color:white;line-height:130%;margin:10px auto;width:90%;}#header {background-color:#004CA3;border-bottom:1px solid gray;margin:0;padding:0.5em;}#header h1 {font-size:45px;}#header h2 {font-size:20px;padding:0;text-align:right;}#title {font-size:20px;padding:0.5em;}#login {float:right;text-align:right;}#tools {float:right;text-align:right;}#contents {font-size:16px;text-align:left;}#button {background:transparent url(/images/white-1.png) no-repeat scroll left top;border:medium none;padding:4px 26px;}#button:active {background:transparent url(/images/white-2.png) no-repeat scroll left top;border:medium none;padding:4px 26px;}#timer {left:800px;position:absolute;top:50px;}#data {background-color:#F5F5F5;border-style:solid;border-width:2px;height:50px;left:300px;position:relative;top:50px;width:400px;}#pass {background:transparent url(/images/interact.png) no-repeat scroll 0 0;height:300px;left:720px;position:relative;top:-10px;width:200px;}#pos {background:transparent url(/images/up.png) no-repeat scroll 0 0;height:300px;left:300px;position:relative;top:-100px;width:200px;}#neg {background:transparent url(/images/down.png) no-repeat scroll 0 0;height:300px;left:600px;position:relative;top:-400px;width:200px;}<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head></head><body><div id="header"></div><div id="login"></div><div id="game links"><style></style><div id="games_tabnav" class="games_tabnav"><ul><li class="active"><a class="active" title="Home Page" href="/"/></li><li class=""><a class="" title="test_game1" href="/game/prestart/1"/></li></ul></div></div><div id="contents"></div></body></html>Firebug's log limit has been reached. %S entries not shown.		Preferences	 
