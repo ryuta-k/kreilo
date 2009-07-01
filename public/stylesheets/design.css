@@ -1,0 +1,14 @@
+#container{
+  width: 50%;
+}
+.progressBar{ 
+  width:300px;
+  height:18px;
+  position: relative;
+ }
+.progressBar2{ 
+  width:300px;
+  height:18px;
+  position:relative;
+  top: 20px;
+ }
