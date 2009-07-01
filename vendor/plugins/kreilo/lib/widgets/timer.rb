@@ -28,10 +28,10 @@ module Kreilo
        $$('#" + button_id +"').each(function(button){
         button.observe('click', function(){
           new Ajax.Updater('#{data_id}', '/data/update' ,{
-                                 method: 'get',
+                                 method: 'put',
                                  parameters: { button: '#{button_id}', 
-                                               datas: document.getElementById('#{data_id}').nodeValue           
-                                                        }
+                                               datas: document.getElementById('#{data_id}').childNodes[0].nodeValue           
+                                             }
                                    });
          });
 
@@ -61,11 +61,5 @@ module Kreilo
         end
       end
     end
-
-
-
-
-
-
   end
 end
