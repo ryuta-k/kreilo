@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link rel="stylesheet" href="stylesheets/design.css" type="text/css" />
+<link rel="stylesheet" href="stylesheets/dialog.css" type="text/css" />
+<script type="text/javascript" src="javascripts/prototype.js"></script>
+<script type="text/javascript" src="javascripts/ProgressBar.js"></script>
+<script type="text/javascript" src="javascripts/dialog.js"></script>
+<script type="text/javascript" src="javascripts/kreilo/timer2.js"></script>
+<script type="text/javascript" src="javascripts/kreilo/waitPlayers.js"></script>
+</head>
+
+<body>
+<h1>Timer & ProgressBar Sample</h1>
+    <h2>timer()</h2>
+<div id='bar'></div>
+<div id="timer">100</div>
+    <button onclick="timer('timer', 'bar');" name="timer">
+    timer start
+</button>
+
+    <h2>waitPlayers()</h2>
+<button onclick="javascript:;" id="waitPlayers">waitPlayers</button>
+<div id="container">container</div>
+<pre>
+    Dialogs.load();
+    new Dialog({
+            handle:'#waitPlayers',
+                title:'waiting...',
+                content: '',
+                afterOpen:function(){waitPlayers('./test.html', './after.html');},
+                afterClose:function(){},
+                width:300,
+                height:60,
+                });
+    
+</pre>
+<script text="text/javascript">
+    Dialogs.load();
+    new Dialog({
+            handle:'#waitPlayers',
+                title:'waiting...',
+                content: '',
+                afterOpen:function(){waitPlayers('./test.html', './after.html');},
+                afterClose:function(){},
+                width:300,
+                height:60,
+                });
+    
+</script>
+
+</body>
+</html>
+
