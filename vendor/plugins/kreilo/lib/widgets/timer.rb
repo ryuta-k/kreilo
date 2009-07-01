@@ -56,7 +56,7 @@ module Kreilo
           add_tab do |t|
             t.named game.name
             t.titled game.name
-            t.links_to :controller => 'game', :action => 'prestart', :id => game.id
+            t.links_to :controller => 'game', :action => 'new', :id => game.id
           end
         end
       end
