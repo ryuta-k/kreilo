@@ -1,10 +1,9 @@
 module Kreilo 
-  module Timer
-#
-# For views
-#
+  module Widgets
+
+#TIMER 
     def kreilo_timer (timeout, onFinish, id)
-      html = "<div id='timer'>#{timeout}</div>"
+      html = "<div class='timer'>#{timeout}</div>"
       html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
       add_js_header( 'kreilo/timer.js') 
       add_css_header('kreilo/timer.css')
@@ -12,6 +11,7 @@ module Kreilo
       html
     end
 
+#DATA display widget
     def kreilo_data (data_id)
 #      data = Data.rand
 #      html = "<div id='data' >#{data}</div>"
@@ -45,6 +45,7 @@ module Kreilo
 
 
 # here too much information site dependent here.
+#TABS for the games, a better solution must be found
     def kreilo_tabs (name, data)
       add_css_header('kreilo/tab.css')
       render_tabnav name, :generate_css => true do
@@ -64,5 +65,8 @@ module Kreilo
         end
       end
     end
+
+
+
   end
 end

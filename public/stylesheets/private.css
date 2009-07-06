@@ -125,12 +125,12 @@ color:#FFFFFF !important;
 /*End of gsomething stuff*/
 
 /*Some generic elements*/
-#button {
+.button {
  background:transparent url(/images/white-1.png) no-repeat scroll left top;
  border:medium none;
  padding:4px 26px;
 }
-#button:active {
+.button:active {
  background:transparent url(/images/white-2.png) no-repeat scroll left top;
  border:medium none;
  padding:4px 26px;

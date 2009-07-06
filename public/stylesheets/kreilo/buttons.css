@@ -1,13 +1,3 @@
-#button {
- background:transparent url(/images/white-1.png) no-repeat scroll left top;
- border:medium none;
- padding:4px 26px;
-}
-#button:active {
- background:transparent url(/images/white-2.png) no-repeat scroll left top;
- border:medium none;
- padding:4px 26px;
-}
 #pass {
  background:transparent url(/images/interact.png) no-repeat scroll 0 0;
  height:300px;
