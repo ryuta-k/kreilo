@@ -44,8 +44,26 @@ module Kreilo
     end
 
 
+ def kreilo_game_links 
+   html = ""
+   Game.find(:all).each do |g|
+     html += kreilo_game_link (g.name)
+     html += "\n"
+   end
+   html
+ end 
+
+ def kreilo_game_link (game_name, link_name = nil)
+  game = Game.find_by_name(game_name)   
+  lname= link_name || game_name
+  html = "<div class='button' id='#{game_name}'><a href='/game/new/#{game.id}'> #{lname}</a></div>"
+ end
+
+
+ 
 # here too much information site dependent here.
 #TABS for the games, a better solution must be found
+#<!-- <% kreilo_tabs :games, Game.find(:all) %> -->
     def kreilo_tabs (name, data)
       add_css_header('kreilo/tab.css')
       render_tabnav name, :generate_css => true do
