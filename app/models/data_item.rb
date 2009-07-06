@@ -2,7 +2,7 @@ class DataItem < ActiveRecord::Base
 has_many :labels
 set_table_name "dataItem"
 
-   def DataItem.random
+  def DataItem.random
     d = DataItem.find_by_id rand(DataItem.count) + 1 
     d.data
   end
@@ -18,6 +18,6 @@ set_table_name "dataItem"
       label.count += 1
       label.save
    end 
-   
  end 
+
 end

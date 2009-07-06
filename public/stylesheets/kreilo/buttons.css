@@ -1,0 +1,34 @@
+#button {
+ background:transparent url(/images/white-1.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
+}
+#button:active {
+ background:transparent url(/images/white-2.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
+}
+#pass {
+ background:transparent url(/images/interact.png) no-repeat scroll 0 0;
+ height:300px;
+ left:720px;
+ position:relative;
+ top:-10px;
+ width:200px;
+}
+#pos {
+ background:transparent url(/images/up.png) no-repeat scroll 0 0;
+ height:300px;
+ left:300px;
+ position:relative;
+ top:-100px;
+ width:200px;
+}
+#neg {
+ background:transparent url(/images/down.png) no-repeat scroll 0 0;
+ height:300px;
+ left:600px;
+ position:relative;
+ top:-400px;
+ width:200px;
+}

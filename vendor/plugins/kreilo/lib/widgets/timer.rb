@@ -16,6 +16,7 @@ module Kreilo
 #      data = Data.rand
 #      html = "<div id='data' >#{data}</div>"
       html = "<div id='#{data_id}' >TESTING</div>"
+      add_css_header('kreilo/data.css')
     end
 
     # a button  with id button_id that acts over
@@ -24,6 +25,7 @@ module Kreilo
     def kreilo_data_updater (button_id, data_id) 
 #TODO: clean game.id from there 
      html = "<div id='#{button_id}' class='button' ></div>"
+     add_css_header('kreilo/buttons.css')
      html += javascript_tag "
        $$('#" + button_id +"').each(function(button){
         button.observe('click', function(){
@@ -44,6 +46,7 @@ module Kreilo
 
 # here too much information site dependent here.
     def kreilo_tabs (name, data)
+      add_css_header('kreilo/tab.css')
       render_tabnav name, :generate_css => true do
         add_tab do |t|
           t.named 'Home'

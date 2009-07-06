@@ -1,15 +1,62 @@
-
+/*general for all the pages better to change for classes*/
 body, td, a, p, .h {
 font-family:arial,sans-serif;
 }
+
 body {
 background:#B22222 url(http://img.joshinweb.jp/emall/img/sm/JSN_C00001/middle/50/51254/5051254235644.jpg) repeat-x scroll 0 -95px;
 color:#B22222;
 margin:3px 8px 2em;
 }
+body {
+background-color:#5F5F5F;
+border:1px solid black;
+color:white;
+line-height:130%;
+margin:10px auto;
+width:90%;
+}
+
 img, table {
 border:0 none;
 }
+/*End of general*/
+
+/*Start of style of the main layout*/
+#header {
+background-color:#004CA3;
+border-bottom:1px solid gray;
+margin:0;
+padding:0.5em;
+}
+#header h1 {
+font-size:45px;
+}
+#header h2 {
+font-size:20px;
+padding:0;
+text-align:right;
+}
+#title {
+font-size:20px;
+padding:0.5em;
+}
+#login {
+float:right;
+text-align:right;
+}
+#tools {
+float:right;
+text-align:right;
+}
+#contents {
+font-size:16px;
+text-align:left;
+}
+/*End of style of main layout*/
+
+
+/*What is all this gsomething stuff??*/
 #sf {
 width:100%;
 }
@@ -75,177 +122,16 @@ a.gb2:hover {
 background:#3366CC none repeat scroll 0 0;
 color:#FFFFFF !important;
 }
-body {
-background-color:#FFFFFF;
-color:#333333;
-}
-body, p, ol, ul, td {
-font-family:verdana,arial,helvetica,sans-serif;
-font-size:13px;
-line-height:18px;
-}
-pre {
-background-color:#EEEEEE;
-font-size:11px;
-padding:10px;
-}
-a {
-color:#000000;
-}
-a:visited {
-color:#666666;
-}
-a:hover {
-background-color:#000000;
-color:#FFFFFF;
-}
-.fieldWithErrors {
-background-color:red;
-display:table;
-padding:2px;
-}
-#errorExplanation {
-background-color:#F0F0F0;
-border:2px solid red;
-margin-bottom:20px;
-padding:7px 7px 12px;
-width:400px;
-}
-#errorExplanation h2 {
-background-color:#CC0000;
-color:#FFFFFF;
-font-size:12px;
-font-weight:bold;
-margin:-7px;
-padding:5px 5px 5px 15px;
-text-align:left;
-}
-#errorExplanation p {
-color:#333333;
-margin-bottom:0;
-padding:5px;
-}
-#errorExplanation ul li {
-font-size:12px;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:square;
-}
-.icn_share_facebook {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px -16px;
-}
-.icn_share_promoted_facebook, a:hover .icn_share_facebook {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px 0;
-}
-.icn_share_delicious {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px -16px;
-}
-.icn_share_promoted_delicious, a:hover .icn_share_delicious {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px 0;
-}
-.icn_share_digg {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -16px;
-}
-.icn_share_promoted_digg, a:hover .icn_share_digg {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px 0;
-}
-.icn_share_myspace {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px -16px;
-}
-.icn_share_promoted_myspace, a:hover .icn_share_myspace {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px 0;
-}
-.icn_share_stumbleupon {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px -16px;
-}
-.icn_share_promoted_stumbleupon, a:hover .icn_share_stumbleupon {
-background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px 0;
-}
-body {
-background-color:#5F5F5F;
-border:1px solid black;
-color:white;
-line-height:130%;
-margin:10px auto;
-width:90%;
-}
-#header {
-background-color:#004CA3;
-border-bottom:1px solid gray;
-margin:0;
-padding:0.5em;
-}
-#header h1 {
-font-size:45px;
-}
-#header h2 {
-font-size:20px;
-padding:0;
-text-align:right;
-}
-#title {
-font-size:20px;
-padding:0.5em;
-}
-#login {
-float:right;
-text-align:right;
-}
-#tools {
-float:right;
-text-align:right;
-}
-#contents {
-font-size:16px;
-text-align:left;
-}
+/*End of gsomething stuff*/
+
+/*Some generic elements*/
 #button {
-background:transparent url(/images/white-1.png) no-repeat scroll left top;
-border:medium none;
-padding:4px 26px;
+ background:transparent url(/images/white-1.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
 }
 #button:active {
-background:transparent url(/images/white-2.png) no-repeat scroll left top;
-border:medium none;
-padding:4px 26px;
+ background:transparent url(/images/white-2.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
 }
-#timer {
-left:800px;
-position:absolute;
-top:50px;
-}
-#data {
-background-color:#F5F5F5;
-border-style:solid;
-border-width:2px;
-height:50px;
-left:300px;
-position:relative;
-top:50px;
-width:400px;
-}
-#pass {
-background:transparent url(/images/interact.png) no-repeat scroll 0 0;
-height:300px;
-left:720px;
-position:relative;
-top:-10px;
-width:200px;
-}
-#pos {
-background:transparent url(/images/up.png) no-repeat scroll 0 0;
-height:300px;
-left:300px;
-position:relative;
-top:-100px;
-width:200px;
-}
-#neg {
-background:transparent url(/images/down.png) no-repeat scroll 0 0;
-height:300px;
-left:600px;
-position:relative;
-top:-400px;
-width:200px;
-}
-
