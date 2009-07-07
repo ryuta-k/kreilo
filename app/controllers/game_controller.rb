@@ -33,7 +33,7 @@ def show
 end
 
 
-
+#game finished
 def finish
   wait = WaitingPlayer.new
  raise RAILS_GEM_VERSION

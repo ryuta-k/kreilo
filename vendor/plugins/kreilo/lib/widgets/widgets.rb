@@ -2,17 +2,23 @@ module Kreilo
   module Widgets
 
 #TIMER 
+#bar is the placeholder of the progressBar
+#timer indicates the amount of time for timer
     def kreilo_timer (timeout, onFinish, id)
-      html = "<div class='timer'>#{timeout}</div>"
+      timer_id = "timer" + timeout.to_s 
+      bar_id = "bar" + timeout.to_s  # trying to have unique id
+      html = "<div id='#{bar_id}'></div>"
+      html += "<div class='timer' id ='#{timer_id}' >#{timeout}</div>"
       html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
-      add_js_header( 'kreilo/timer.js') 
-      add_css_header('kreilo/timer.css')
-      html += js_at_load("timer()")
+      add_js_header( 'kreilo/timer2.js')
+      add_js_header( 'ProgressBar.js')  
+   #   add_css_header('kreilo/timer.css')
+      html += js_at_load("timer('#{timer_id}', '#{bar_id}')")
       html
     end
 
 #DATA display widget
-    def kreilo_data (data_id)
+    def kreilo_data (data_id) 
 #      data = Data.rand
 #      html = "<div id='data' >#{data}</div>"
       html = "<div id='#{data_id}' >TESTING</div>"
