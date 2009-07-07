@@ -7,6 +7,7 @@ function waitPlayers(url1, url2){
     var pE = new PeriodicalExecuter(loop, 1);
     function loop(){
         timer--;
+/*
         var a = new Ajax.Request(
                                  url1,
                                  {
@@ -31,6 +32,7 @@ function waitPlayers(url1, url2){
                                      }
                                  }
                                  );
+*/
         if(timer < 1){
             pE.stop();
             jump()

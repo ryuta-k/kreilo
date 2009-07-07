@@ -18,6 +18,30 @@ module Kreilo
       html
     end
 
+
+    def kreilo_wait 
+      add_js_header( 'kreilo/waitPlayers.js')
+      add_js_header( 'dialog.js')
+      html = "<div id='container'>container</div>"
+#<button onclick="javascript:;" id="waitPlayers">waitPlayers</button>
+        html += "
+<script text='text/javascript'>
+Dialogs.load();
+         new Dialog({
+            handle:'#waitPlayers',
+                title:'waiting...',
+                content: '',
+                afterOpen:function(){waitPlayers('./test.html', './after.html');},
+                afterClose:function(){},
+                width:300,
+                height:60,
+                });
+</script>
+ "
+       html
+    end
+
+
 #DATA display widget
     def kreilo_data (data_id) 
 #      data = Data.rand
