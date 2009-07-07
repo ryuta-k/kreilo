@@ -4,5 +4,5 @@
 <%=kreilo_data_updater "pos", "data" %>
 <%=kreilo_data_updater "neg", "data" %>
 
-<%=kreilo_timer @game.timeout, 'finish', @game.id%>
+<%=kreilo_timer @game.timeout, "finish/"+ @game.id.to_s %>
 

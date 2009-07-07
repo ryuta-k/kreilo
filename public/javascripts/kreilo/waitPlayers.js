@@ -40,3 +40,5 @@ function waitPlayers(url1, url2){
         location.href = url2;
     }
 }
+
+

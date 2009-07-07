@@ -1,4 +1,4 @@
-function timer(timeID, barID){
+function timer(timeID, barID, url){
     var div = $(timeID);
     var sec = div.innerHTML;
     var date = new Date();
@@ -14,7 +14,7 @@ function timer(timeID, barID){
         pBar.setSelection(sec);
         if(sec < 1){
             pE.stop();
-            alert("stop();");
+            window.location = url
         }
     }
     

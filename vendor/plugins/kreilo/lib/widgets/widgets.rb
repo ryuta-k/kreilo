@@ -4,16 +4,17 @@ module Kreilo
 #TIMER 
 #bar is the placeholder of the progressBar
 #timer indicates the amount of time for timer
-    def kreilo_timer (timeout, onFinish, id)
-      timer_id = "timer" + timeout.to_s 
-      bar_id = "bar" + timeout.to_s  # trying to have unique id
-      html = "<div id='#{bar_id}'></div>"
-      html += "<div class='timer' id ='#{timer_id}' >#{timeout}</div>"
-      html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
+    def kreilo_timer (timeout, onFinish)
       add_js_header( 'kreilo/timer2.js')
       add_js_header( 'ProgressBar.js')  
-   #   add_css_header('kreilo/timer.css')
-      html += js_at_load("timer('#{timer_id}', '#{bar_id}')")
+      add_css_header('kreilo/timer.css')
+      #html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
+      timer_id = "timer" + timeout.to_s 
+      bar_id = "bar" + timeout.to_s  # trying to have unique id
+
+      html = "<div id='#{bar_id}'></div>"
+      html += "<div class='timer' id ='#{timer_id}' >#{timeout}</div>"
+      html += js_at_load("timer('#{timer_id}', '#{bar_id}', '#{onFinish}')")
       html
     end
 
