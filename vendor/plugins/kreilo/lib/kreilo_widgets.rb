@@ -20,6 +20,6 @@ end
 
 ActionController::Base.helper Kreilo::Core
 
-require 'widgets/timer.rb'
-ActionController::Base.helper Kreilo::Timer
+require 'widgets/widgets.rb'
+ActionController::Base.helper Kreilo::Widgets
 

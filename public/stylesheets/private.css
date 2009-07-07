@@ -1,115 +1,137 @@
-/*  Share this plugin*/
-.icn_share_facebook{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px -16px;}
-.icn_share_promoted_facebook, a:hover .icn_share_facebook{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -240px 0px;}
-.icn_share_delicious{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px -16px;}
-.icn_share_promoted_delicious, a:hover .icn_share_delicious{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -208px 0px;}
-.icn_share_digg{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -16px;}
-.icn_share_promoted_digg, a:hover .icn_share_digg{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -224px -0px;}
-.icn_share_myspace{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px -16px;}
-.icn_share_promoted_myspace, a:hover .icn_share_myspace{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -320px 0px;}
-.icn_share_stumbleupon{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px -16px;}
-.icn_share_promoted_stumbleupon, a:hover .icn_share_stumbleupon{background:transparent url(/images/share_this_icons.gif) no-repeat scroll -368px 0px;}
+/*general for all the pages better to change for classes*/
+body, td, a, p, .h {
+font-family:arial,sans-serif;
+}
 
 body {
-  width: 90%;
-  margin: 10px auto;
-  background-color: #fff;
-  color: #333;
-  border: 1px solid gray;
-  line-height: 130%;
+background:#B22222 url(http://img.joshinweb.jp/emall/img/sm/JSN_C00001/middle/50/51254/5051254235644.jpg) repeat-x scroll 0 -95px;
+color:#B22222;
+margin:3px 8px 2em;
+}
+body {
+background-color:#5F5F5F;
+border:1px solid black;
+color:white;
+line-height:130%;
+margin:10px auto;
+width:90%;
 }
 
+img, table {
+border:0 none;
+}
+/*End of general*/
+
+/*Start of style of the main layout*/
 #header {
-padding: .5em ;
-background-color: #ddd;
-border-bottom: 1px solid gray;
-margin: 0px;
+background-color:#004CA3;
+border-bottom:1px solid gray;
+margin:0;
+padding:0.5em;
 }
-
 #header h1 {
-  font-size: 40px;
+font-size:45px;
 }
-
 #header h2 {
-padding: 0px;
-font-size: 16px;
-text-align: right;
+font-size:20px;
+padding:0;
+text-align:right;
 }
-
 #title {
-  font-size: 24px;
-  padding: .5em ;
+font-size:20px;
+padding:0.5em;
 }
-
-
 #login {
-  float: right; 
-  text-align: right;
-/*   padding: 70px 0 0 0; */
+float:right;
+text-align:right;
 }
-
 #tools {
-  float: right; 
-  text-align: right;
-/*   padding: 70px 0 0 0; */
+float:right;
+text-align:right;
 }
-
-
-
-#contents{
-
-  text-align: left;
-  font-size: 16px;
+#contents {
+font-size:16px;
+text-align:left;
 }
+/*End of style of main layout*/
 
 
-#button { border: none; background: url('/images/white-1.png') no-repeat top left; padding: 4px 26px; }
-#button:active { border: none; background: url('/images/white-2.png') no-repeat top left; padding: 4px 26px; }
-
-
-#timer {
-  position: absolute; /* 絶対位置で指定(親ボックス基準) */
-  top: 50px;         /* 上から100px */
-  left: 800px;         /* 左から200px */}
-
-#data {  border-style: solid;           /* 枠の形 */
-  border-width: 2px;             /* ４方向の枠 */  
-  width: 400px;
-  height: 50px;
-  background-color: #F5F5F5;
-  position: relative; /* 絶対位>置で指定(親ボックス基準) */
-  top: 50px;          /* 上から100px */
-  left: 300px;         /* 左から200px */
+/*What is all this gsomething stuff??*/
+#sf {
+width:100%;
 }
-#pass {
-  background: url("/images/interact.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -10px;          /* 上から100px */
-  left: 720px;        /* 左
-から400px */
+#frame {
+margin:auto 12px;
+width:800px;
 }
-
-#pos {
-  background: url("/images/up.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -100px;       /* 上から200px */
-  left: 300px;      /* 左から300px */ 
+#gbar {
+height:22px;
+padding-left:0;
 }
-
-#neg {
-   background: url("/images/down.png");
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  position: relative; /* 絶対位置で指定(親ボックス基準) */
-  top: -400px;       /* 上から200px */
-  left: 600px;      /* 左から400px */
+.gbh, .gbd {
+border-top:1px solid #C9D7F1;
+font-size:1px;
 }
+.gbh {
+height:0;
+position:absolute;
+top:24px;
+width:100%;
+}
+#gbi, #gbs {
+background:#FFFFFF none repeat scroll 0 0;
+left:0;
+position:absolute;
+top:24px;
+visibility:hidden;
+z-index:1000;
+}
+#gbi {
+border-color:#C9D7F1 #3366CC #3366CC #A2BAE7;
+border-style:solid;
+border-width:1px;
+z-index:1001;
+}
+#guser {
+padding-bottom:7px !important;
+text-align:right;
+}
+#gbar, #guser {
+font-size:13px;
+padding-top:1px !important;
+}
+.gb1, .gb3 {
+height:22px;
+margin-right:0.5em;
+vertical-align:top;
+}
+#gbar {
+float:left;
+}
+.gb2 {
+display:block;
+padding:0.2em 0.5em;
+}
+a.gb1, a.gb2, a.gb3 {
+color:#0000CC !important;
+}
+.gb2, .gb3 {
+text-decoration:none;
+}
+a.gb2:hover {
+background:#3366CC none repeat scroll 0 0;
+color:#FFFFFF !important;
+}
+/*End of gsomething stuff*/
 
-
+/*Some generic elements*/
+.button {
+ background:transparent url(/images/white-1.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
+}
+.button:active {
+ background:transparent url(/images/white-2.png) no-repeat scroll left top;
+ border:medium none;
+ padding:4px 26px;
+}

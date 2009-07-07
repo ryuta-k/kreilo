@@ -6,4 +6,4 @@ The main layout (seen in all the pages of the sites) resides in app/views/layout
 The css file resides in public/stylesheets/private.css
 the javascript effects in public/javascript/
 
-
+hello
