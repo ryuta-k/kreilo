@@ -1,3 +1,11 @@
+/************************************************************************************
+ *  ProgressBar, version 1.0.2														*
+ *  (c) 2008 Pierrick HYMBERT pierrick [ dot ] hymbert [ at ] gmail [ dot ] com							*
+ *																					*
+ *  ProgressBar is freely distributable                                           *
+ *  and "PROVIDED AS IS" under the terms of an MIT-style license.	                *
+ *																					*
+/************************************************************************************/
 
 if((typeof Prototype=='undefined'))
       throw("ProgressBar requires the Prototype JavaScript framework >= 1.6");
@@ -142,7 +150,7 @@ ProgressBar.prototype =  {
 			
 			var i = this.progressIndicators.length;
 			while( this.progressIndicators.length < nbIndicators ){
-				var element = this._createIndicator( ( i * ( this.options.widthIndicators + 1 ) ) + 'px' );
+				var element = this._createIndicator( ( i * ( this.options.widthIndicators  ) ) + 'px' );
 				this.progressIndicators[ this.progressIndicators.length ] = element;
 				i++;
 			}
@@ -156,7 +164,7 @@ ProgressBar.prototype =  {
 				i--;
 			}
 			
-			// Met â‰’ jour la couleur des indicateurs
+			// Met à jour la couleur des indicateurs
 			this._updateIndicatorsColor();
 		}
 	},
@@ -195,10 +203,11 @@ ProgressBar.prototype =  {
 			var percent = this.selection / (this.maximum - this.minimum );
 			if( typeof this.lastPercent == 'undefined' )
 				this.lastPercent = percent;
-			else if( percent > this.lastPercent && percent - this.lastPercent > 0.1 
-					|| percent < this.lastPercent && this.lastPercent - percent  > 0.1
+			else if( percent > this.lastPercent && percent - this.lastPercent > 0.2 
+					|| percent < this.lastPercent && this.lastPercent - percent  > 0.2
 					){
 				this.lastPercent = percent;
+                
 			}else{
 				return;
 			}
@@ -220,6 +229,8 @@ ProgressBar.prototype =  {
 					)
 			};
 			var colorString = 'rgb(' + currentColor.r + ',' + currentColor.g + ',' + currentColor.b + ')';
+            $('alert').innerHTML = colorString;
+            
 			this.progressBarContent.childElements().each( function(i){
 				i.childElements().each( function(e){
 					e.style.backgroundColor = colorString;
@@ -233,10 +244,11 @@ ProgressBar.prototype =  {
 	 */
 	_createIndicator: function( left ){
 			var element = this._createElement( ['absolute', null, left, this.options.widthIndicators + 'px', '100%', null, this.progressBarContent ]);
-			
+			element.className = "indicator";
 			var bgColor = 'rgb(' + this.options.color.r + ',' + this.options.color.g + ',' + this.options.color.b + ')';
 			if( this.options.colorEnd != null && ( this.options.style & ProgressBar.DETERMINATE ) == ProgressBar.DETERMINATE){
 				var percent = this.selection / (this.maximum - this.minimum );
+
 				var currentColor = {
 					r: parseInt( this.options.color.r < this.options.colorEnd.r ? 
 						this.options.color.r + ( this.options.colorEnd.r - this.options.color.r ) * percent
@@ -259,10 +271,10 @@ ProgressBar.prototype =  {
 			var filtersParams = [
 				['absolute', '0px', null, '100%', height + 'px', bgColor, element, 0.4],
 				['absolute', height + 'px', null, '100%', height + 'px', bgColor, element, 0.5],
-				['absolute', ( 2 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.6],
-				['absolute', ( 3 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.7],
-				['absolute', ( 4 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.7],
-				['absolute', ( 5 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.6],
+				['absolute', ( 2 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.7],
+				['absolute', ( 3 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.9],
+				['absolute', ( 4 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.9],
+				['absolute', ( 5 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.7],
 				['absolute', ( 6 * height ) + 'px', null, '100%', height + 'px', bgColor, element, 0.5]
 			];
 			this._createElements(filtersParams);		
@@ -341,6 +353,7 @@ ProgressBar.prototype =  {
 	 * elementParams[4]: height,
 	 * elementParams[5]: backgroundColor,
 	 * elementParams[6]: parentNode,
+	 * elementParams[7]: Opacity,
 	 */
 	_createElement: function( elementParams ){
 		var element = new Element('div');
@@ -372,4 +385,3 @@ ProgressBar.prototype =  {
 		return element;
 	}
  };
-
