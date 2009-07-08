@@ -1,3 +1,5 @@
+// using prototype.js, ProgressBar.js & effects.js
+
 function ease(score, scoreBar, max){
     //    $(scoreBar).innerHTML = "";
     var div = $(score);

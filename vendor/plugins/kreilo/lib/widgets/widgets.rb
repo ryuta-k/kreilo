@@ -24,6 +24,7 @@ module Kreilo
       add_js_header( 'kreilo/waitPlayers.js')
       add_js_header( 'dialog.js')
       add_js_header( 'ProgressBar.js')  
+      add_css_header( 'dialog.css')  
 
       check_url = "/pregame/"+ game.id.to_s+ "/waiting_player" 
       destiny_url = "after.html" 
