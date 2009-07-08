@@ -1,36 +1,14 @@
 class GameController < ApplicationController
 before_filter :set_titles
 
-#new game, instructions and other information showed
-def new 
-
-end
-
-#waiting for other players
-def wait
-  wait = WaitingPlayer.new
-  wait.new_game_of_type(@game)
-  if (wait.enough_players(@game))
-    redirect_to @game
-  end
-
-end
-
-=begin
-def waiting_player
-  wait = WaitingPlayer.new
- 
-  if (wait.enough_players(@game))
-    redirect_to  @game
-  end
-  puts wait.players(@game)
-end
-=end
+#display something spinning with timeout of 3 seconds
+#calling new should wait till all the players called this
+#def new
+#end
 
 #the real game
 def show
- #display something spinning with timeout of 3 seconds
- #calling start should wait till all the players called this
+
 # RunningGame.start(game)
 
 end

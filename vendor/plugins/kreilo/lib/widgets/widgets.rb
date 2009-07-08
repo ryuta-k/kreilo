@@ -18,12 +18,19 @@ module Kreilo
       html
     end
 
-
+# WAIT
     def kreilo_wait 
+      game = Game.find (params[:id])
       add_js_header( 'kreilo/waitPlayers.js')
       add_js_header( 'dialog.js')
+      add_js_header( 'ProgressBar.js')  
+
+      check_url = "waiting_for_players"
+      destiny_url = "after.html" 
+
       html = "<div id='container'>container</div>"
-#<button onclick="javascript:;" id="waitPlayers">waitPlayers</button>
+      html += "<button onclick='javascript:;' id='waitPlayers'>waitPlayers</button>"
+      
         html += "
 <script text='text/javascript'>
 Dialogs.load();
@@ -31,7 +38,7 @@ Dialogs.load();
             handle:'#waitPlayers',
                 title:'waiting...',
                 content: '',
-                afterOpen:function(){waitPlayers('./test.html', './after.html');},
+                afterOpen:function(){waitPlayers('#{check_url}', game.id);},
                 afterClose:function(){},
                 width:300,
                 height:60,
@@ -50,6 +57,7 @@ Dialogs.load();
       add_css_header('kreilo/data.css')
     end
 
+#DATA UPDATER
     # a button  with id button_id that acts over
     # data contained in the element with id data_id
     #  '/#{@controller_name}/button/#{@game.id}' 
@@ -75,47 +83,29 @@ Dialogs.load();
     end
 
 
+#GAME LINKS
+#parameter, the controller that will get the action
  def kreilo_game_links 
    html = ""
+   controller = :pregame
    Game.find(:all).each do |g|
-     html += kreilo_game_link (g.name)
+     html += kreilo_game_link ( controller,g )
      html += "\n"
    end
    html
  end 
 
- def kreilo_game_link (game_name, link_name = nil)
-  game = Game.find_by_name(game_name)   
-  lname= link_name || game_name
-  html = "<div class='button' id='#{game_name}'><a href='/game/new/#{game.id}'> #{lname}</a></div>"
+ def kreilo_game_link ( controller, game,link_name = nil)
+  lname= link_name || game.name
+  html = "<div class='button' id='#{game.name}'><a href='/#{controller.to_s}/new/#{game.id}'> #{lname}</a></div>"
  end
 
-
+ def kreilo_play_link (game, name=nil)
+ lname = name || "play" 
+ html =  "<div class ='button'> <a href='/pregame/show/#{game.id}'}>#{lname}</a> </div>"
  
-# here too much information site dependent here.
-#TABS for the games, a better solution must be found
-#<!-- <% kreilo_tabs :games, Game.find(:all) %> -->
-    def kreilo_tabs (name, data)
-      add_css_header('kreilo/tab.css')
-      render_tabnav name, :generate_css => true do
-        add_tab do |t|
-          t.named 'Home'
-          t.titled 'Home Page'
-          t.links_to :controller => 'home'
-        end
-        i = 0
-        data.each do |game|
-          i += 1
-          add_tab do |t|
-            t.named game.name
-            t.titled game.name
-            t.links_to :controller => 'game', :action => 'new', :id => game.id
-          end
-        end
-      end
-    end
-
-
+ end
+ 
 
   end
 end

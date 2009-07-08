@@ -1,7 +1,9 @@
 
 
 <div > <%= render :partial => "instructions" %> </div>
-<div class ="button" > <%= link_to "play", :controller => "game", :action => "wait", :method => :get, :id => @game.id %> </div>
+<%= kreilo_play_link (@game, "play") %>
+
+
 
 
 <!--

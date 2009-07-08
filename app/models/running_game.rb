@@ -31,10 +31,6 @@ class WaitingPlayer < ActiveRecord::Base
     g.counter
   end
 
-  def WaitingPlayer.clean (game)
-    g = WaitingPlayer.find(:first, :conditions => {:game_id => game.id})
-    g.counter = 0  
-  end
 
 =begin
   def new_game_of_type (game)
