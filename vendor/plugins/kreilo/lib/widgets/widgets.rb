@@ -8,6 +8,7 @@ module Kreilo
       add_js_header( 'kreilo/timer2.js')
       add_js_header( 'ProgressBar.js')  
       add_css_header('kreilo/timer.css')
+      add_css_header('design.css')
       #html += periodically_call_remote(:url => { :action => onFinish, :id => id}, :frequency => timeout) 
       timer_id = "timer" + timeout.to_s 
       bar_id = "bar" + timeout.to_s  # trying to have unique id
@@ -25,6 +26,7 @@ module Kreilo
       add_js_header( 'dialog.js')
       add_js_header( 'ProgressBar.js')  
       add_css_header( 'dialog.css')  
+      add_css_header('design.css')
 
       check_url = "/pregame/"+ game.id.to_s+ "/waiting_player" 
       destiny_url = "after.html" 

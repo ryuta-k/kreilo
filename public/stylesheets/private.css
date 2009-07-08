@@ -4,7 +4,7 @@ font-family:arial,sans-serif;
 }
 
 body {
-background:#B22222 url(http://img.joshinweb.jp/emall/img/sm/JSN_C00001/middle/50/51254/5051254235644.jpg) repeat-x scroll 0 -95px;
+background:#B22222 repeat-x scroll 0 -95px;
 color:#B22222;
 margin:3px 8px 2em;
 }
@@ -135,3 +135,4 @@ color:#FFFFFF !important;
  border:medium none;
  padding:4px 26px;
 }
+
