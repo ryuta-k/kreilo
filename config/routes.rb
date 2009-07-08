@@ -3,6 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resource :user_session
   map.resources :game
+  map.resources :pregame, :member => {:waiting_player => :get}
   map.root :controller => "home", :action => "index"
   map.connect ':controller/:action/:id' 
 end

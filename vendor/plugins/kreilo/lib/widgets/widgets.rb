@@ -25,7 +25,7 @@ module Kreilo
       add_js_header( 'dialog.js')
       add_js_header( 'ProgressBar.js')  
 
-      check_url = "waiting_for_players"
+      check_url = "/pregame/"+ game.id.to_s+ "/waiting_player" 
       destiny_url = "after.html" 
 
       html = "<div id='container'>container</div>"
@@ -38,7 +38,7 @@ Dialogs.load();
             handle:'#waitPlayers',
                 title:'waiting...',
                 content: '',
-                afterOpen:function(){waitPlayers('#{check_url}', game.id);},
+                afterOpen:function(){waitPlayers('#{check_url}', #{game.id});},
                 afterClose:function(){},
                 width:300,
                 height:60,

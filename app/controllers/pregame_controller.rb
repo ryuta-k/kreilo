@@ -23,11 +23,10 @@ def waiting_player
   session[:waiting] += 1
   if (WaitingPlayer.enough_players(@game))
     redirect_to  @game
-  end
-
-  #TODO: configuration
-  if session[:waiting] >= 10 
+  elsif session[:waiting] >= 10 
     redirect_to  @game
+  else
+    head :success
   end
 #  puts WaitingPlayer.players(@game)
 end
