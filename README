@@ -1,9 +1,12 @@
-
-Web interface for the Kreilo human computation engine
+# Web interface for the Kreilo human computation engine
 
 To personalize it:
-The main layout (seen in all the pages of the sites) resides in app/views/layout/main.html.erb
-The css file resides in public/stylesheets/private.css
-the javascript effects in public/javascript/
+* The main layout (seen in all the pages of the sites) resides in `app/views/layout/main.html.erb`
+* The css file resides in `public/stylesheets/private.css`
+* the javascript effects in `public/javascript/`
 
 hello
+
+
+## Licence
+[GNU GPL version 3](LICENSE).
